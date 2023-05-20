@@ -13,3 +13,6 @@
 ## 필독 
 - 강의 자료는 강사 허락없이 무단으로 배포하시면 안됩니다.
 - 질문은 [asksim.co.kr](https://asksim.co.kr)에 남겨주시면 성심성의껏 답변드리도록 하겠습니다. 
+
+## 조 편성 결과
+![조편성 결과](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/37052afe-793c-4405-ad41-1b89c8577725)
