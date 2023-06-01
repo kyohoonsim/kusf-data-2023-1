@@ -15,6 +15,7 @@
 - 질문은 [asksim.co.kr](https://asksim.co.kr) 또는 질문방(카카오톡)에 남겨주시면 성심성의껏 답변드리도록 하겠습니다. 
 
 ## 조 구성 
+<https://github.com/kyohoonsim/random_drawing>
 ![조편성 결과](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/37052afe-793c-4405-ad41-1b89c8577725)
 
 - 1조 / 4J / 이준수, 성준모, 유예린, 이규헌
