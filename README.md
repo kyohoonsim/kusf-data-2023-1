@@ -27,8 +27,7 @@
 
 
 ## 백엔드 개발
-1. 실시간 기온, 강수량 등 날씨 정보 조회 API 파이썬 클라이언트
-  - <https://github.com/kyohoonsim/OpenWeatherAPI_python_client>
+1. 실시간 기온, 강수량 등 날씨 정보 조회 API 파이썬 클라이언트: <https://github.com/kyohoonsim/OpenWeatherAPI_python_client>
 
 ## 프론트엔드 개발
-
+1. 간편 로그인 기능 구현: https://www.furo.one 
