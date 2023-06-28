@@ -150,6 +150,9 @@ if __name__ == "__main__":
 ### 실습: 투수 기록을 조회하는 함수를 만들어보고 활용해보자
 
 
+### 실습: JOIN을 활용하여 선수 성으로 데이터를 조회하는 함수를 만들어보고 활용해보자
+
+
 ---
 
 ## FastAPI로 레먼데이터를 제공하는 API 서버 만들기
@@ -181,7 +184,9 @@ def test():
 
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/ce74f495-d154-41d2-a135-6a7f864e19c2)
 
-이제 웹 브라우저에서 주소창에 `https://kusf-sports-data-qzzgm.run.goorm.site/test`를 쳐보세요.
+이제 웹 브라우저에서 주소창에 `https://kusf-sports-data-qzzgm.run.goorm.site/test`를 쳐보세요. 
+
+여러분의 구름 IDE 컨터이너 설정에 들어가셔서 URL을 찾으셔야 합니다. 
 
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/8a449561-4887-401c-9e40-19db6d5a69ff)
 
