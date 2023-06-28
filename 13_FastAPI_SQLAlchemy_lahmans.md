@@ -192,5 +192,90 @@ def test():
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/8a449561-4887-401c-9e40-19db6d5a69ff)
 
 
+### 레먼 데이터베이스의 데이터를 api 서버를 통해 제공하기
+
+crud.py
+```python
+from sqlalchemy import create_engine, text
+
+db_connection_info = {
+    'user': 'root',
+    'password': 'asdf1234!',
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'lahmansbaseballdb'
+}
+
+db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_info['password']}@{db_connection_info['host']}:{db_connection_info['port']}/{db_connection_info['database']}?charset=utf8"
+engine = create_engine(db_url, max_overflow=0)
 
 
+def read_player_batting_data(playerID: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from batting where playerID = :playerID"), {'playerID': playerID})
+    
+    row_list = [row for row in rows]
+    return row_list
+
+
+def read_player_batting_data_by_name(lastname: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("SELECT batting.yearID, batting.HR, people.nameFirst, people.nameLast FROM batting LEFT OUTER JOIN people ON batting.playerID = people.playerID WHERE people.nameLast = :nameLast"), {'nameLast': lastname})
+    
+    row_list = [row for row in rows]
+    return row_list
+
+
+if __name__ == "__main__":
+    # choo_data = read_player_batting_data('choosh01')
+    # print(choo_data)
+    
+    # kang_data = read_player_batting_data('kangju01')
+    # print(kang_data)
+    
+    ryu_lastname_data = read_player_batting_data_by_name('ryu')
+    print(ryu_lastname_data)
+```
+
+main.py
+```python
+# HTTP 메소드
+# GET: read 
+# POST: create  
+# PUT: update
+# DELETE: delete 
+
+from fastapi import FastAPI
+
+import crud
+
+
+app = FastAPI()
+
+
+@app.get("/batting/{playerID}")
+def get_batting_data(playerID):
+    batting_data = crud.read_player_batting_data(playerID)
+    print(batting_data)
+    
+    temp = []
+    for data in batting_data:
+        temp.append(list(data))
+    
+    return {'batting_data': temp}
+    
+
+@app.get("/names/{name}")
+def get_name(name: str):
+    return name
+
+
+@app.get("/ping")
+def ping():
+    return "pong"
+
+
+@app.post("/add")
+def add(num1: int, num2: int):
+    return num1 + num2
+```
