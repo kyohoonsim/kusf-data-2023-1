@@ -175,4 +175,16 @@ def test():
     return "테스트"
 ```
 
+서버 실행 명령: `uvicorn main:app --host 0.0.0.0 --port 80 --reload`
+
+아마 다음과 같은 내용이 콘솔에 출력되면서 서버가 실행될 것입니다.
+
+![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/ce74f495-d154-41d2-a135-6a7f864e19c2)
+
+이제 웹 브라우저에서 주소창에 `https://kusf-sports-data-qzzgm.run.goorm.site/test`를 쳐보세요.
+
+![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/8a449561-4887-401c-9e40-19db6d5a69ff)
+
+
+
 
