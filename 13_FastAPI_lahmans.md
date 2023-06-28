@@ -50,7 +50,27 @@ pip를 최신 버전으로 업그레이드하기 위해 `pip install --upgrade p
 crud.py라는 파일 하나 생성.
 
 ```python
+from sqlalchemy import create_engine, text
 
+db_connection_info = {
+    'user': 'root',
+    'password': 'asdf1234!',
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'lahmansbaseballdb'
+}
+
+db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_info['password']}@{db_connection_info['host']}:{db_connection_info['port']}/{db_connection_info['database']}?charset=utf8"
+engine = create_engine(db_url, max_overflow=0)
+
+with engine.connect() as conn:
+    rows = conn.execute(text("select * from batting where playerID = 'choosh01'"))
+
+print(rows)
+print("="*20, "추신수 선수 타격 기록 전체 조회")
+
+for row in rows:
+    print(row)
 ```
 
 아마도 Access denied for user 'root'@'localhost'와 같은 에러가 뜨면서 실행이 안 될 것이다.
@@ -65,6 +85,69 @@ root 계정으로 로컬에서 접속 가능하도록 해줘야 함.
 위와 같이 MySQL에서 설정을 해준 후에 `python crud.py`로 파이썬 파일을 실행하면 다음과 같이 파이썬에서 SQL을 활용하여 데이터를 조회한 결과를 가지고 온 것을 확인할 수 있다. 
 
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/a4f6c457-3b7e-483a-a94e-04360d773bdb)
+
+이번에는 선수 이름을 변수로 받아서 SQL문에 반영해보자. 
+
+```python
+from sqlalchemy import create_engine, text
+
+db_connection_info = {
+    'user': 'root',
+    'password': 'asdf1234!',
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'lahmansbaseballdb'
+}
+
+db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_info['password']}@{db_connection_info['host']}:{db_connection_info['port']}/{db_connection_info['database']}?charset=utf8"
+engine = create_engine(db_url, max_overflow=0)
+
+playerID = 'choosh01'
+
+with engine.connect() as conn:
+    rows = conn.execute(text("select * from batting where playerID = :playerID"), {'playerID': playerID})
+
+print(rows)
+print("="*20, "추신수 선수 타격 기록 전체 조회")
+
+for row in rows:
+    print(row)
+```
+
+이번에는 함수 처리를 하여 코드를 재사용가능하게 해볼 것이다.
+
+```python
+from sqlalchemy import create_engine, text
+
+db_connection_info = {
+    'user': 'root',
+    'password': 'asdf1234!',
+    'host': 'localhost',
+    'port': 3306,
+    'database': 'lahmansbaseballdb'
+}
+
+db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_info['password']}@{db_connection_info['host']}:{db_connection_info['port']}/{db_connection_info['database']}?charset=utf8"
+engine = create_engine(db_url, max_overflow=0)
+
+
+def read_player_batting_data(playerID: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from batting where playerID = :playerID"), {'playerID': playerID})
+    
+    row_list = [row for row in rows]
+    return row_list
+
+
+if __name__ == "__main__":
+    choo_data = read_player_batting_data('choosh01')
+    print(choo_data)
+    
+    kang_data = read_player_batting_data('kangju01')
+    print(kang_data)
+```
+
+### 실습: 투수 기록을 조회하는 함수를 만들어보고 활용해보자
 
 
 ---
