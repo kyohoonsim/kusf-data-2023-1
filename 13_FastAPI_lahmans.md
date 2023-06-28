@@ -157,4 +157,9 @@ if __name__ == "__main__":
 
 ### 필요 패키지 설치
 
+- pip install fastapi
+- pip install "uvicorn[standard]"
+
+
 ### 세상에서 가장 간단한 API 서버 띄우기
+
