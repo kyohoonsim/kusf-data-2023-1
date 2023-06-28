@@ -77,6 +77,7 @@ for row in rows:
 
 root 계정으로 로컬에서 접속 가능하도록 해줘야 함.
 
+- `sudo mysql -uroot -p` 
 - `SELECT User, Host, plugin FROM mysql.user;` 
 - `GRANT ALL PRIVILEGES ON *.* to 'root'@'localhost' IDENTIFIED BY 'asdf1234!';`
 - `UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root';`
