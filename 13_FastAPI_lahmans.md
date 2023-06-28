@@ -163,3 +163,16 @@ if __name__ == "__main__":
 
 ### 세상에서 가장 간단한 API 서버 띄우기
 
+```python 
+from fastapi import FastAPI
+
+
+app = FastAPI()
+
+
+@app.get("/test")
+def test():
+    return "테스트"
+```
+
+
