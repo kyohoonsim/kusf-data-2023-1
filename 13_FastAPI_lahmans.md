@@ -77,10 +77,10 @@ for row in rows:
 
 root 계정으로 로컬에서 접속 가능하도록 해줘야 함.
 
-- SELECT User, Host, plugin FROM mysql.user; 
-- GRANT ALL PRIVILEGES ON *.* to 'root'@'localhost' IDENTIFIED BY 'asdf1234!';
-- UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root';
-- FLUSH PRIVILEGES;
+- `SELECT User, Host, plugin FROM mysql.user;` 
+- `GRANT ALL PRIVILEGES ON *.* to 'root'@'localhost' IDENTIFIED BY 'asdf1234!';`
+- `UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root';`
+- `FLUSH PRIVILEGES;`
 
 위와 같이 MySQL에서 설정을 해준 후에 `python crud.py`로 파이썬 파일을 실행하면 다음과 같이 파이썬에서 SQL을 활용하여 데이터를 조회한 결과를 가지고 온 것을 확인할 수 있다. 
 
