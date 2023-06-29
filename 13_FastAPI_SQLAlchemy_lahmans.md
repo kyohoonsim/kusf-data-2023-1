@@ -191,6 +191,17 @@ def test():
 
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/8a449561-4887-401c-9e40-19db6d5a69ff)
 
+### HTTP 메소드
+
+- GET: 조회
+- POST: 생성
+- PUT: 수정
+- DELETE: 삭제
+
+
+### path parameter, query parameter, body
+
+
 
 ### 레먼 데이터베이스의 데이터를 api 서버를 통해 제공하기
 
