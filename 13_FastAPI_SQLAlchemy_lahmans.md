@@ -191,6 +191,7 @@ def test():
 
 ![image](https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/8a449561-4887-401c-9e40-19db6d5a69ff)
 
+
 ### HTTP 메소드
 
 - GET: 조회
@@ -207,8 +208,7 @@ def test():
 
 3. Request Body
 
-4. Header parameter 
-
+4. Header parameter
 
 
 ### 레먼 데이터베이스의 데이터를 api 서버를 통해 제공하기
@@ -216,6 +216,8 @@ def test():
 crud.py
 ```python
 from sqlalchemy import create_engine, text
+import pandas as pd
+
 
 db_connection_info = {
     'user': 'root',
@@ -229,72 +231,163 @@ db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_in
 engine = create_engine(db_url, max_overflow=0)
 
 
+def read_player_info(playerID: str) -> dict:
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from people where playerID = :playerID"), {'playerID': playerID})
+        
+    columns = rows.keys()
+    print(columns)
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {
+        "player_info": row_dict_list        
+    }
+
+def read_player_name(playerID: str) -> dict:
+    with engine.connect() as conn:
+        row = conn.execute(text("select nameFirst, nameLast from people where playerID = :playerID"), {'playerID': playerID}).one()
+        
+    print(row)
+    name = row[0] + " " + row[1]
+    return {"name": name}
+
+
 def read_player_batting_data(playerID: str):
     with engine.connect() as conn:
         rows = conn.execute(text("select * from batting where playerID = :playerID"), {'playerID': playerID})
+        
+    columns = rows.keys()
+    print(columns)
     
-    row_list = [row for row in rows]
-    return row_list
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {
+        "batting_data": row_dict_list        
+    }
 
 
-def read_player_batting_data_by_name(lastname: str):
+def read_player_pitching_data_by_lastname(lastname: str):
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT batting.yearID, batting.HR, people.nameFirst, people.nameLast FROM batting LEFT OUTER JOIN people ON batting.playerID = people.playerID WHERE people.nameLast = :nameLast"), {'nameLast': lastname})
+        rows = conn.execute(text("SELECT * FROM pitching LEFT OUTER JOIN people ON pitching.playerID = people.playerID WHERE people.nameLast = :nameLast"), {'nameLast': lastname})
     
-    row_list = [row for row in rows]
-    return row_list
+    columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {
+        "pitching_data": row_dict_list        
+    }
 
+def read_player_pitching_data_a_season(playerID: str, yearID: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from pitching where playerID = :playerID AND yearID = :yearID"), {'playerID': playerID, 'yearID': yearID})
+        
+    columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    print(row_dict_list)
+    return {
+        "pitching_data": row_dict_list        
+    }
+
+def read_player_pitching_data_many_season(playerID: str, start_year: str, end_year: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from pitching where playerID = :playerID AND yearID BETWEEN :start_year AND :end_year"), {'playerID': playerID, 'start_year': start_year, 'end_year': end_year})
+        
+    columns = rows.keys()
+    print(columns)
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    print(row_dict_list)
+    return {
+        "pitching_data": row_dict_list        
+    }
 
 if __name__ == "__main__":
-    # choo_data = read_player_batting_data('choosh01')
-    # print(choo_data)
+    choo_data = read_player_batting_data('choosh01')
+    print(choo_data)
     
-    # kang_data = read_player_batting_data('kangju01')
-    # print(kang_data)
+    kang_data = read_player_batting_data('kangju01')
+    print(kang_data)
     
-    ryu_lastname_data = read_player_batting_data_by_name('ryu')
-    print(ryu_lastname_data)
+    ryu_data = read_player_pitching_data_by_lastname('ryu')
+    print(ryu_data)
 ```
 
 main.py
 ```python
-# HTTP 메소드
-# GET: read 
-# POST: create  
-# PUT: update
-# DELETE: delete 
-
-from fastapi import FastAPI
+from fastapi import FastAPI, Body, Header
+from typing import Union
+from typing_extensions import Annotated
 
 import crud
 
 
-app = FastAPI()
+app = FastAPI(title="레먼데이터베이스 API")
 
 
-@app.get("/batting/{playerID}")
-def get_batting_data(playerID):
-    batting_data = crud.read_player_batting_data(playerID)
-    print(batting_data)
-    
-    temp = []
-    for data in batting_data:
-        temp.append(list(data))
-    
-    return {'batting_data': temp}
-    
-
-@app.get("/names/{name}")
-def get_name(name: str):
-    return name
-
-
+# GET 요청 예시
 @app.get("/ping")
 def ping():
     return "pong"
 
 
-@app.post("/add")
-def add(num1: int, num2: int):
-    return num1 + num2
+@app.get("/players/{playerID}") # 경로 매개변수 활용 예시
+def get_player_info(playerID: str):
+    return crud.read_player_info(playerID)
+
+
+@app.get("/players/{playerID}/name") # 경로 매개변수 활용 예시
+def get_player_name(playerID: str):
+    return crud.read_player_name(playerID)
+
+
+@app.get("/batting/{playerID}") # 경로 매개변수 활용 예시
+def get_batting_data(playerID: str):
+    return crud.read_player_batting_data(playerID)
+
+
+@app.get("/pitching/season") # 쿼리 매개변수 활용 예시
+def get_pitching_data_a_season(playerID: str, yearID: str):
+    return crud.read_player_pitching_data_a_season(playerID, yearID)
+
+
+@app.get("/pitching/seasons") # 쿼리 매개변수 활용 예시
+def get_pitching_data_many_season(playerID: str, start_year: str, end_year: str):
+    return crud.read_player_pitching_data_many_season(playerID, start_year, end_year)
+
+
+@app.get("/pitching") # 쿼리 매개변수 활용 예시
+def get_pitching_data_by_lastname(lastname: str):
+    return crud.read_player_pitching_data_by_lastname(lastname)
+
+
+@app.get("/protected") # 헤더 매개변수 활용 예시
+def do_something(api_key: Union[str, None] = Header(default=None)):
+    return {"api_key": api_key}
+
+
+# POST 요청 예시
+@app.post("/login") # request body 활용 예시
+def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
+    print(f"id: {userid}, pwd: {userpwd}로 회원가입 시도")
+    return {"id": userid, "pwd": userpwd}
 ```
