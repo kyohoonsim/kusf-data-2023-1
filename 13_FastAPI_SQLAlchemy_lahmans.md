@@ -400,7 +400,7 @@ def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
 만약 간단한 메모를 저장하기 위한 데이터베이스라고 가정하고 테이블을 만들어보자. 
 
 - 데이터베이스 생성: `CREATE DATABASE my_memo;`
-- `USE my_memo;`
+- 데이터베이스 사용: `USE my_memo;`
 - 테이블 생성
   ```
   CREATE TABLE memo (
@@ -421,7 +421,7 @@ def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
 조금 더 멋진 테이블을 만들기 위해 만들어 놓은 테이블을 삭제하자. 
 
 - 테이블 삭제: `DROP TABLE memo;`
-- 테이블 생성
+- 테이블 생성: 데이터 입력 시간과 수정 시간 및 memo_id를 직접 입력하지 않아도 자동으로 입력되도록 처리했음. 
   ```
   CREATE TABLE memo (
 	memo_id INT AUTO_INCREMENT, 
@@ -433,16 +433,17 @@ def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
   )CHARSET=utf8;
   ```
 
-- 데이터 입력
+- 데이터 입력: title, content만 입력하지만 나머지 컬럼이 저절로 잘 입력되는 것을 확인할 것.
   ```
   INSERT INTO memo (title, content) VALUES ("Kusf 강의준비", "fastapi로 api 서버를 만드는 것을 잘 알려드려야 하는데....");
   INSERT INTO memo (title, content) VALUES ("치킨 먹을까?", "야식으로 치킨이나 먹을까? 살 찌겠지? 이미 쪘는데 뭐. 오늘까지만 먹을까?");
   ```
+  
 - 데이터 조회: `SELECT * FROM memo;`
 
     <img width="941" alt="image" src="https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/1f34d300-c978-493a-9d28-12745ad17554">
   
-- 데이터 수정
+- 데이터 수정: updated_at 컬럼 데이터가 자동으로 잘 변경된 것을 확인할 것.
   ```
   UPDATE memo SET title = '야식 고민' WHERE memo_id = 2;
   ```
