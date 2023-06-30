@@ -199,7 +199,15 @@ def test():
 - DELETE: 삭제
 
 
-### path parameter, query parameter, body
+### 서버로 값 전달하는 방법
+
+1. path parameter (경로 매개변수)
+
+2. query parameter (쿼리 매개변수)
+
+3. Request Body
+
+4. Header parameter 
 
 
 
