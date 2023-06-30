@@ -152,7 +152,6 @@ if __name__ == "__main__":
 
 ### 실습: JOIN을 활용하여 선수 성으로 데이터를 조회하는 함수를 만들어보고 활용해보자
 
-### 실습: 여러분이 기획한 서비스에서 필요한 테이블을 만들고 그 데이터를 조회하는 함수를 만들어보고 활용해보자
 
 ---
 
@@ -391,3 +390,64 @@ def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
     print(f"id: {userid}, pwd: {userpwd}로 회원가입 시도")
     return {"id": userid, "pwd": userpwd}
 ```
+
+---
+
+## FastAPI로 여러분이 기획한 웹 서비스의 핵심 데이터를 제공하는 API 서버 만들기
+
+### 테이블 만들기
+
+만약 간단한 메모를 저장하기 위한 데이터베이스라고 가정하고 테이블을 만들어보자. 
+
+- 데이터베이스 생성: `CREATE DATABASE my_memo;`
+- `USE my_memo;`
+- 테이블 생성
+  ```
+  CREATE TABLE memo (
+	title VARCHAR(100) NOT NULL,
+	content VARCHAR(1000) NOT NULL,
+	created_at DATETIME NOT NULL
+  )CHARSET=utf8;
+  ```
+- 데이터 입력
+  ```
+  INSERT INTO memo VALUES ("Kusf 강의준비", "fastapi로 api 서버를 만드는 것을 잘 알려드려야 하는데....", "2023-06-30 10:30:00");
+  INSERT INTO memo VALUES ("치킨 먹을까?", "야식으로 치킨이나 먹을까? 살 찌겠지? 이미 쪘는데 뭐. 오늘까지만 먹을까?", "2023-06-30 11:23:39");
+  ```
+- 데이터 조회: `SELECT * FROM memo;`
+
+    <img width="698" alt="image" src="https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/1b3213c6-0a05-4bc7-a11d-bdbe7961ea6c">
+
+조금 더 멋진 테이블을 만들기 위해 만들어 놓은 테이블을 삭제하자. 
+
+- 테이블 삭제: `DROP TABLE memo;`
+- 테이블 생성
+  ```
+  CREATE TABLE memo (
+	memo_id INT AUTO_INCREMENT, 
+	title VARCHAR(100) NOT NULL,
+	content VARCHAR(1000) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	PRIMARY KEY(memo_id)
+  )CHARSET=utf8;
+  ```
+
+- 데이터 입력
+  ```
+  INSERT INTO memo (title, content) VALUES ("Kusf 강의준비", "fastapi로 api 서버를 만드는 것을 잘 알려드려야 하는데....");
+  INSERT INTO memo (title, content) VALUES ("치킨 먹을까?", "야식으로 치킨이나 먹을까? 살 찌겠지? 이미 쪘는데 뭐. 오늘까지만 먹을까?");
+  ```
+- 데이터 조회: `SELECT * FROM memo;`
+
+    <img width="941" alt="image" src="https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/1f34d300-c978-493a-9d28-12745ad17554">
+  
+- 데이터 수정
+  ```
+  UPDATE memo SET title = '야식 고민' WHERE memo_id = 2;
+  ```
+- 데이터 조회: `SELECT * FROM memo;`
+
+  <img width="945" alt="image" src="https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/3d1cd759-838c-452f-88b7-af8973afb721">
+
+### 실습: 여러분이 기획한 서비스에서 필요한 테이블을 만들고 그 데이터를 조회하는 함수를 만들어보고 활용해보자
