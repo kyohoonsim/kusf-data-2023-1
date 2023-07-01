@@ -466,3 +466,6 @@ def login(body: SignupRequestBodySchema = Body(...)):
 ### 실습: 여러분이 기획한 서비스에서 필요한 테이블을 만들고 그 데이터를 조회하는 함수를 만들어보고 활용해보자
 
 - 조별로 꼭 필요한 테이블을 여기에 정의해주세요. <https://docs.google.com/spreadsheets/d/1QjBxz8w-CY1ztVsVRryWC-Xa9jy0x484sYnze2WF6MQ/edit?usp=sharing>
+
+- 중요 공지: 2023/7/8/토 수업 시간에 각 조마다 FastAPI 서버를 하나 띄워서 활용하는 것을 시연해주세요.
+
