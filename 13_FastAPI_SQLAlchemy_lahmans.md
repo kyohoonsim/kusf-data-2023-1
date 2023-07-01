@@ -464,3 +464,5 @@ def login(body: SignupRequestBodySchema = Body(...)):
   <img width="945" alt="image" src="https://github.com/kyohoonsim/kusf-data-2023-1/assets/58966525/3d1cd759-838c-452f-88b7-af8973afb721">
 
 ### 실습: 여러분이 기획한 서비스에서 필요한 테이블을 만들고 그 데이터를 조회하는 함수를 만들어보고 활용해보자
+
+- 조별로 꼭 필요한 테이블을 여기에 정의해주세요. <https://docs.google.com/spreadsheets/d/1QjBxz8w-CY1ztVsVRryWC-Xa9jy0x484sYnze2WF6MQ/edit?usp=sharing>
