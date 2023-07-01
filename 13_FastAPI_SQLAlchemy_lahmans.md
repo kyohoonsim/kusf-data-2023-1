@@ -336,8 +336,13 @@ main.py
 from fastapi import FastAPI, Body, Header
 from typing import Union
 from typing_extensions import Annotated
+from pydantic import BaseModel
 
 import crud
+
+class SignupRequestBodySchema(BaseModel):
+    userid: str
+    userpwd: str
 
 
 app = FastAPI(title="레먼데이터베이스 API")
@@ -387,8 +392,15 @@ def do_something(api_key: Union[str, None] = Header(default=None)):
 # POST 요청 예시
 @app.post("/login") # request body 활용 예시
 def login(userid: Annotated[str, Body()], userpwd: Annotated[str, Body()]):
-    print(f"id: {userid}, pwd: {userpwd}로 회원가입 시도")
+    print(f"id: {userid}, pwd: {userpwd}로 로그인 시도")
     return {"id": userid, "pwd": userpwd}
+
+
+@app.post("/signup") # request body 활용 예시
+def login(body: SignupRequestBodySchema = Body(...)):
+    print(body)
+    print(f"id: {body.userid}, pwd: {body.userpwd}로 회원가입 시도")
+    return body
 ```
 
 ---
