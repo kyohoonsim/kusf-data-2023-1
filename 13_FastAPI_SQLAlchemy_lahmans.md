@@ -467,5 +467,5 @@ def login(body: SignupRequestBodySchema = Body(...)):
 
 - 조별로 꼭 필요한 테이블을 여기에 정의해주세요. <https://docs.google.com/spreadsheets/d/1QjBxz8w-CY1ztVsVRryWC-Xa9jy0x484sYnze2WF6MQ/edit?usp=sharing>
 
-- 중요 공지: 2023/7/8/토 수업 시간에 각 조마다 FastAPI 서버를 하나 띄워서 활용하는 것을 시연해주세요.
+- 중요 공지: 2023/7/8/토 수업 시간에 각 조마다 FastAPI 서버를 하나 띄워서 활용하는 것을 시연해주세요. (핵심 테이블의 데이터를 제공할 수 있는 endpoint들이 정의되어 있어야 함.)
 
