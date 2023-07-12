@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            width : 500px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+    <script>
+        //html 태그가 다 로딩되고 실행
+        $(function() {
+            getRounds(); //호출
+        });
+
+        function getRounds() {
+            $.ajax ({
+            url   : "https://kusf-api-4.run.goorm.site/Rounds",      // 요청이 전송될 URL 주소
+            type : "GET",                            // http 요청 방식 (default: ‘GET’)
+            data : "",                    // 요청 시 포함되어질 데이터
+            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                console.log(data);
+
+                var roundList = data.roundList;
+                for(var i=0; i<roundList.length; i++) {
+                    console.log(roundList[i]);
+
+                    //<option value="id1">id1</option>를 변형해서 아래 문장 만듦
+
+                    var optionTag = "<option value='" + roundList[i] + "'>" + roundList[i] + "</option>";
+                    $("#RoundSb").append(optionTag);
+                }
+                //alert("성공!");
+            },
+            error   : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                console.log(xhr);       
+                alert("실패!");               
+            },
+        });
+        };
+
+        function getSoCount(Round) {
+        $.ajax ({
+            url   : "https://kusf-api-4.run.goorm.site/Round/"+ Round,        // 요청이 전송될 URL 주소
+            type   : "GET",                            // http 요청 방식 (default: ‘GET’)
+            //data  : {key : value},                    // 요청 시 포함되어질 데이터
+            
+            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                var list = data.Round_number;
+                console.log(list);
+
+                $("#infoTable").empty(); // 테이블 초기화
+                var columnTag = "<tr>";
+                columnTag += "<td></td>";
+                columnTag += "<td>경기</td>";
+                columnTag += "<td>날짜</td>";
+                columnTag += "<td>홈</td>";
+                columnTag += "<td>어웨이</td>";
+                columnTag += "<td>시작시간</td>";
+                columnTag += "</tr>";
+                $("#infoTable").append(columnTag);
+
+                
+                for(var i=0; i < list.length; i++) {
+                        
+                        /* 날짜 변환 */
+                        var dateParts = list[i].Game_Date.split("-"); 
+                        var formattedDate = dateParts[0] + "-" + dateParts[1] + "-" + dateParts[2];
+                        var rowHtml = "<tr>";
+                        var j = i + 1;
+                        var vote_id = 'vote' + j;
+                        rowHtml += '<td><input type="radio" name="vote" value="' + j + '" id="' + vote_id + '"></td>';
+
+                        rowHtml += "<td>" + list[i].Game_num + "</td>";
+                        rowHtml += "<td>" + formattedDate + "</td>";
+                        rowHtml += "<td>" + list[i].Home_Team + "</td>";
+                        rowHtml += "<td>" + list[i].Away_Team + "</td>";
+                        rowHtml += "<td>" + list[i].Start_Time + "</td>";
+
+                        rowHtml += "</tr>";
+                        console.log(rowHtml);
+
+                        $("#infoTable").append(rowHtml);
+                        
+                    }
+
+            },
+            error   : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                console.log(xhr);                      
+            },
+        });
+    }
+
+        $(document).on("click", "#searchBtn", function(){
+            // alert("클릭");
+            var Round = $("#RoundSb").val();
+
+            getSoCount(Round);
+
+        })
+
+        $(document).on("click", "#voteBtn", function(){
+        const voteNodeList = document.getElementsByName('vote');
+        var voteVal = "";
+
+        voteNodeList.forEach((node) => {
+        if (node.checked) {
+            voteVal = node.value;
+        }
+        });
+        console.log(voteVal);
+        var sendData = {
+            selected_game : voteVal
+        };
+        console.log(sendData);
+
+        doVoteUp(sendData);
+
+
+        }); // 선택된 경기를 1~6까지의 숫자로 반환 -> sendData로 넘김
+
+        function doVoteUp(sendData) {
+            $.ajax({
+                url : "https://kusf-api-4.run.goorm.site/votes", 
+                type : "POST", // http 요청 방식
+                data : JSON.stringify(sendData),  // 요청 시 포함되어질 데이터
+                contentType : "application/json",
+                success : function(data, status, xhr) {  // 정상적으로 응답 받았을 때
+                    console.log(data);
+                    alert("성공!");
+                },
+                error : function(xhr, status, error) { // 서버에서 에러가 생겼을 때
+                    console.log(xhr);
+                    alert("실패!");
+                }
+            });
+
+        }
+  
+    </script>
+</head>
+<body>
+    Round : 
+    <select id="RoundSb">
+        
+    </select>
+
+    
+    
+    <input id="searchBtn" type="button" value="조회"/>
+
+    <hr/>
+
+    <table id="infoTable">
+        <tr>
+            <td></td>
+            <td>경기</td>
+            <td>날짜</td>
+            <td>홈</td>
+            <td>어웨이</td>
+            <td>시작시간</td>
+        </tr>         
+    </table>
+
+    <input id="voteBtn" type="button" value="투표">
+
+</body>
+</html>
