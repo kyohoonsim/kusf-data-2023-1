@@ -320,6 +320,28 @@ def read_player_pitching_data_many_season(playerID: str, start_year: str, end_ye
         "pitching_data": row_dict_list        
     }
 
+def read_playerID_in_pitching_data():
+    query_str = '''
+                select 
+                    pc.playerID 
+                from pitching pc
+                inner join people pp
+                    on pc.playerID = pp.playerID
+                where pp.birthCountry = 'South Korea'
+                group by pc.playerID
+                '''
+    
+    with engine.connect() as conn:
+        rows = conn.execute(text(query_str))
+    
+    row_list = []
+    
+    for row in rows:
+        row_list.append(row[0])
+    
+    return {"playerIDList" : row_list}
+
+
 if __name__ == "__main__":
     choo_data = read_player_batting_data('choosh01')
     print(choo_data)
