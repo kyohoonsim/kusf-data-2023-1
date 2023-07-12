@@ -410,6 +410,11 @@ def login(body: SignupRequestBodySchema = Body(...)):
     print(body)
     print(f"id: {body.userid}, pwd: {body.userpwd}로 회원가입 시도")
     return body
+
+
+@app.get("/playerIDs") # 쿼리 매개변수 활용 예시
+def read_playerID_in_pitching_data():
+    return crud.read_playerID_in_pitching_data()
 ```
 
 ---
