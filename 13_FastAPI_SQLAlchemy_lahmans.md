@@ -334,11 +334,13 @@ if __name__ == "__main__":
 main.py
 ```python
 from fastapi import FastAPI, Body, Header
+from fastapi.middleware.cors import CORSMiddleware
 from typing import Union
 from typing_extensions import Annotated
 from pydantic import BaseModel
 
 import crud
+
 
 class SignupRequestBodySchema(BaseModel):
     userid: str
@@ -346,6 +348,13 @@ class SignupRequestBodySchema(BaseModel):
 
 
 app = FastAPI(title="레먼데이터베이스 API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
 
 
 # GET 요청 예시
