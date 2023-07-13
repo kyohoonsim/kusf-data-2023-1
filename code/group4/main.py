@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 import crud
 
-selected_round = None  # 전역 변수
+selected_round = None  # 전역 변수 선언
 Round_num = None
 count1 = 0
 count2 = 0 
@@ -26,19 +26,20 @@ app.add_middleware(
 )
 
 
+@app.get("/Round")
+def get_round():
+    return crud.read_round()
 
-@app.get("/Round/{Round_num}")
-def get_sch_info(Round_num: str):
+
+
+@app.get("/Info/{Round_num}")
+def get_round_info(Round_num: str):
     global selected_round  # 전역 변수를 사용하도록 선언
     selected_round = Round_num[1:3]
     print(f"{selected_round}라운드가 선택되었습니다")
-    return crud.read_sch_info(Round_num)
+    return crud.read_round_info(Round_num)
 
 
-
-@app.get("/Rounds") # 쿼리 매개변수 활용 예시
-def read_round():
-    return crud.read_round()
 
 
 
@@ -50,8 +51,8 @@ class Vote(BaseModel):
 '''
         
     
-@app.post("/votes")
-def create_vote(selected_game: Annotated[str, Body()]):
+@app.post("/Vote")
+def get_vote(selected_game: Annotated[str, Body()]):
     print(f"{selected_game}번 경기가 선택되었습니다")
     selected_game = int(selected_game)
     global count1, count2, count3, count4, count5, count6
@@ -87,4 +88,12 @@ def show_vote_count(Round_num: Annotated[str, Body()], selected_game: Annotated[
     Game_num = str(selected_game) + "경기"
     print(f"{Game_num}가 선택되었습니다")
     
-    return crud.count_up(Round_num, Game_num)
+    return crud.update_vote_count(Round_num, Game_num)
+
+
+
+@app.get("/RoundPeriod")
+def get_round_period():
+    return crud.read_round_period()
+
+
