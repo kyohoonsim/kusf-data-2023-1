@@ -4,159 +4,196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
+    <style> /* table 스타일 변경 -> 각 테이블의 스타일을 다르게 해야될듯*/
         table, th, td {
             border: 1px solid black;
             border-collapse: collapse;
             width : 500px;
-        }
+        };
+        
     </style>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
-    <script>
-        //html 태그가 다 로딩되고 실행
+    <script> // html 태그가 다 로딩된 후 실행   
         $(function() {
-            getRounds(); //호출
-        });
+            getRoundPeriod();
+            getRound();
+        }); // getRoundPeriod, getRound 불러오기
 
-        function getRounds() { // R20~R33 선택창 불러오기
+        function getRound() { // R20~R33 선택창 불러오기
             $.ajax ({
-            url   : "https://kusf-api-4.run.goorm.site/Rounds",      // 요청이 전송될 URL 주소
-            type : "GET",                            // http 요청 방식 (default: ‘GET’)
-            data : "",                    // 요청 시 포함되어질 데이터
-            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
-                console.log(data);
+                url   : "https://kusf-api-4.run.goorm.site/Round",     
+                type : "GET",                           
+                data : "",                    
+                success : function(data, status, xhr) {     
+                    console.log(data);
 
-                var roundList = data.roundList;
-                for(var i=0; i<roundList.length; i++) {
-                    console.log(roundList[i]);
+                    var roundList = data.roundList;
+                    for(var i=0; i<roundList.length; i++) {
+                        console.log(roundList[i]);
 
-                    //<option value="id1">id1</option>를 변형해서 아래 문장 만듦
-
-                    var optionTag = "<option value='" + roundList[i] + "'>" + roundList[i] + "</option>";
-                    $("#RoundSb").append(optionTag);
-                }
-                //alert("성공!");
-            },
-            error   : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
-                console.log(xhr);       
-                alert("실패!");               
-            },
-        });
+                        var optionTag = "<option value='" + roundList[i] + "'>" + roundList[i] + "</option>";
+                        $("#RoundSb").append(optionTag);
+                    }
+                },
+                error   : function(xhr, status, error) {    
+                    console.log(xhr);       
+                    alert("실패!");               
+                },
+            });
         };
 
-        function getSoCount(Round) { // R20~R33중 선택된 라운드 일정 출력
-        $.ajax ({
-            url   : "https://kusf-api-4.run.goorm.site/Round/"+ Round,        // 요청이 전송될 URL 주소
-            type   : "GET",                            // http 요청 방식 (default: ‘GET’)
-            //data  : {key : value},                    // 요청 시 포함되어질 데이터
-            
-            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
-                var list = data.Round_number;
-                console.log(list);
+        function getRoundPeriod() { // 라운드 일정 출력
+            $.ajax ({
+                url   : "https://kusf-api-4.run.goorm.site/RoundPeriod",       
+                type   : "GET",
+                success : function(data, status, xhr) {   
+                    var round_list = data.Round_row;
+                    var start_date_list = data.Start_Date;
+                    var end_date_list = data.End_Date;
 
-                $("#infoTable").empty(); // 테이블 초기화
-                var columnTag = "<tr>";
-                columnTag += "<td></td>";
-                columnTag += "<td>경기</td>";
-                columnTag += "<td>날짜</td>";
-                columnTag += "<td>홈</td>";
-                columnTag += "<td>어웨이</td>";
-                columnTag += "<td>시작시간</td>";
-                columnTag += "</tr>";
-                $("#infoTable").append(columnTag);
+                    $("#periodTable").empty(); // 테이블 초기화
+                    var columnTag = "<tr>";
+                    columnTag += "<td>라운드</td>";
+                    columnTag += "<td>기간</td>";
+                    columnTag += "</tr>";
+
+                    $("#periodTable").append(columnTag);
+
+        
+                    for(var i=0; i < round_list.length; i++) {
+                        var startDateParts = start_date_list[i].split("-");
+                        var formattedStartDate = startDateParts[0] + "-" + startDateParts[1] + "-" + startDateParts[2];
+
+                        var endDateParts = end_date_list[i].split("-");
+                        var formattedEndDate = endDateParts[0] + "-" + endDateParts[1] + "-" + endDateParts[2];
+
+                        var period = formattedStartDate + "~" + formattedEndDate
+                        var periodRowHtml = "<tr>";
+                        periodRowHtml += "<td>" + round_list[i] + "</td>";
+                        periodRowHtml += "<td>" + period + "</td>";
+                        periodRowHtml += "</tr>";
+                        console.log(periodRowHtml);
+                        $("#periodTable").append(periodRowHtml);
+                    }
+                },
+                error   : function(xhr, status, error) {    
+                    console.log(xhr);                      
+                },
+            });
+        };                          
+
+        function getRoundInfo(Round) { // 선택된 라운드 일정 출력
+            $.ajax ({
+                url   : "https://kusf-api-4.run.goorm.site/Info/"+ Round,       
+                type   : "GET",
+                success : function(data, status, xhr) {   
+                    var list = data.Round_number;
+                    console.log(list);
+
+                    $("#infoTable").empty(); // 테이블 초기화
+                    var columnTag = "<tr>";
+                    columnTag += "<td></td>";
+                    columnTag += "<td>경기</td>";
+                    columnTag += "<td>날짜</td>";
+                    columnTag += "<td>홈</td>";
+                    columnTag += "<td>어웨이</td>";
+                    columnTag += "<td>시작시간</td>";
+                    columnTag += "</tr>";
+
+                    $("#infoTable").append(columnTag);
 
                 
-                for(var i=0; i < list.length; i++) {
-                        
-                        /* 날짜 변환 */
-                        var dateParts = list[i].Game_Date.split("-"); 
-                        var formattedDate = dateParts[0] + "-" + dateParts[1] + "-" + dateParts[2];
-                        var rowHtml = "<tr>";
-                        var j = i + 1;
-                        var vote_id = 'vote' + j;
-                        rowHtml += '<td><input type="radio" name="vote" value="' + j + '" id="' + vote_id + '"></td>';
+                    for(var i=0; i < list.length; i++) {
+                            var dateParts = list[i].Game_Date.split("-"); 
+                            var formattedDate = dateParts[0] + "-" + dateParts[1] + "-" + dateParts[2]; // 날짜 형식 변환
+                            var rowHtml = "<tr>";
+                            var j = i + 1;
+                            var vote_id = 'vote' + j;
 
-                        rowHtml += "<td>" + list[i].Game_num + "</td>";
-                        rowHtml += "<td>" + formattedDate + "</td>";
-                        rowHtml += "<td>" + list[i].Home_Team + "</td>";
-                        rowHtml += "<td>" + list[i].Away_Team + "</td>";
-                        rowHtml += "<td>" + list[i].Start_Time + "</td>";
+                            rowHtml += '<td><input type="radio" name="vote" value="' + j + '" id="' + vote_id + '"></td>';
+                            rowHtml += "<td>" + list[i].Game_num + "</td>";
+                            rowHtml += "<td>" + formattedDate + "</td>";
+                            rowHtml += "<td>" + list[i].Home_Team + "</td>";
+                            rowHtml += "<td>" + list[i].Away_Team + "</td>";
+                            rowHtml += "<td>" + list[i].Start_Time + "</td>";
+                            rowHtml += "</tr>";
+                            console.log(rowHtml);
 
-                        rowHtml += "</tr>";
-                        console.log(rowHtml);
+                            $("#infoTable").append(rowHtml);
+                        }
+                },
+                error   : function(xhr, status, error) {    
+                    console.log(xhr);                      
+                },
+            });
+        };                          
 
-                        $("#infoTable").append(rowHtml);
-                        
-                    }
-
-            },
-            error   : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
-                console.log(xhr);                      
-            },
-        });
-    }
-
-        $(document).on("click", "#searchBtn", function(){
-            // alert("클릭");
+        $(document).on("click", "#searchBtn", function(){ 
+            $("#initialScreen").hide();
             var Round = $("#RoundSb").val();
-            console.log(Round);
-            getSoCount(Round);
-            // Round를 Round_num으로 백앤드 상으로 보내야함 -> 다음 함수에 추가
-            
+            alert(Round + '를 선택하셨습니다.');
 
-        })
+            var roundNumber = Round.substring(1); // "R" 제외한 숫자 부분 추출
+            var roundLabel = roundNumber + "라운드"; // "{숫자}라운드" 생성
+            $("#roundLabel").text(roundLabel);
+            $("#roundInfoTable").show(); // 경기 일정과 투표버튼 출력
+            $("#roundInfoTable").prepend("<p> < " + roundLabel + " > </p>"); // < {숫자}라운드 > 표 위에 출력
+
+            console.log(Round);
+            console.log(roundLabel);
+            getRoundInfo(Round);
+        }); // 라운드 선택 후 클릭하면 몇라운드가 선택되었는지 getRoundInfo로 보내기
 
         $(document).on("click", "#voteBtn", function(){
-        const voteNodeList = document.getElementsByName('vote');
-        var voteVal = "";
+            const voteNodeList = document.getElementsByName('vote');
+            var voteVal = "";
+            voteNodeList.forEach((node) => {
+            if (node.checked) {
+                voteVal = node.value;
+            }
+            }); // 선택된 radio의 value를 voteVal에 저장
+            console.log(voteVal);
+            alert(voteVal + '경기에 투표되었습니다.');
 
-        voteNodeList.forEach((node) => {
-        if (node.checked) {
-            voteVal = node.value;
-        }
-        });
-        console.log(voteVal);
-        var sendData = {
-        selected_game: parseInt(voteVal)
-        };
-        console.log(sendData);
-        /*
+            var sendData = {
+                selected_game: voteVal
+            }; // voteVal을 selected_game로 지정해서 POST(/Vote)로 보내기
+            console.log(sendData);
+
+            /*
             var sendSelectGameData = {
             Round_num : Round
             selected_game : voteVal
             };
             console.log(sendSelectGameData)
 
-            doGameSelect(sendSelectGameData);
+            doCountUp(sendSelectGameData);
+            // POST(/CountUp)로 보내기
             */
 
-        doVoteUp(sendData);
+            doVote(sendData);
+        }); // 선택된 경기를 1~6까지의 숫자(자료형: str)로 반환 -> sendData로 넘김
 
-
-        }); // 선택된 경기를 1~6까지의 숫자로 반환 -> sendData로 넘김
-
-        function doVoteUp(sendData) {
+        function doVote(sendData) {
             $.ajax({
-                url : "https://kusf-api-4.run.goorm.site/votes", 
-                type : "POST", // http 요청 방식
-                data : JSON.stringify(sendData),  // 요청 시 포함되어질 데이터
+                url : "https://kusf-api-4.run.goorm.site/Vote", 
+                type : "POST", 
+                data : JSON.stringify(sendData),  
                 contentType : "application/json",
-                success : function(data, status, xhr) {  // 정상적으로 응답 받았을 때
+                success : function(data, status, xhr) {  
                     console.log(data);
                     alert("성공!");
                 },
-                error : function(xhr, status, error) { // 서버에서 에러가 생겼을 때
+                error : function(xhr, status, error) { 
                     console.log(xhr);
                     alert("실패!");
-                    console.log(response)
                 }
             });
-
-        }
+        };
 
         /*
-        function doGameSelect(sendSelectGameData) {
+        function doCountUp(sendSelectGameData) {
             $.ajax({
                 url : "https://kusf-api-4.run.goorm.site/CountUp", 
                 type : "POST", // http 요청 방식
@@ -171,36 +208,51 @@
                     alert("실패!");
                 }
             });
-
-        }
+        };
         */
-  
+
     </script>
 </head>
+
 <body>
-    Round : 
-    <select id="RoundSb">
-        
-    </select>
+    <div id="initialScreen">
+        <table id="periodTable">
+            <tr>
+                <td>라운드</td>
+                <td>기간</td>
+            </tr>         
+        </table>
 
+        <br>
+
+        Round:
     
-    
-    <input id="searchBtn" type="button" value="조회"/>
+        <select id="RoundSb"></select>
 
-    <hr/>
+        <input id="searchBtn" type="button" value="조회"/> 
 
-    <table id="infoTable">
-        <tr>
-            <td></td>
-            <td>경기</td>
-            <td>날짜</td>
-            <td>홈</td>
-            <td>어웨이</td>
-            <td>시작시간</td>
-        </tr>         
-    </table>
-    <div>
-    <input id="voteBtn" type="button" value="투표">
     </div>
+
+    
+
+
+
+    <div id="roundInfoTable" style="display: none;"> 
+        <!-- style="display: none;" : 화면에서 사라짐-->
+
+        <table id="infoTable">
+            <tr>
+                <td></td>
+                <td>경기</td>
+                <td>날짜</td>
+                <td>홈</td>
+                <td>어웨이</td>
+                <td>시작시간</td>
+            </tr>         
+        </table>
+
+        <input id="voteBtn" type="button" value="투표">
+    </div>
+
 </body>
 </html>
