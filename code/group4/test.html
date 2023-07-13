@@ -19,7 +19,7 @@
             getRounds(); //호출
         });
 
-        function getRounds() {
+        function getRounds() { // R20~R33 선택창 불러오기
             $.ajax ({
             url   : "https://kusf-api-4.run.goorm.site/Rounds",      // 요청이 전송될 URL 주소
             type : "GET",                            // http 요청 방식 (default: ‘GET’)
@@ -45,7 +45,7 @@
         });
         };
 
-        function getSoCount(Round) {
+        function getSoCount(Round) { // R20~R33중 선택된 라운드 일정 출력
         $.ajax ({
             url   : "https://kusf-api-4.run.goorm.site/Round/"+ Round,        // 요청이 전송될 URL 주소
             type   : "GET",                            // http 요청 방식 (default: ‘GET’)
@@ -100,8 +100,10 @@
         $(document).on("click", "#searchBtn", function(){
             // alert("클릭");
             var Round = $("#RoundSb").val();
-
+            console.log(Round);
             getSoCount(Round);
+            // Round를 Round_num으로 백앤드 상으로 보내야함 -> 다음 함수에 추가
+            
 
         })
 
@@ -116,9 +118,18 @@
         });
         console.log(voteVal);
         var sendData = {
-            selected_game : voteVal
+        selected_game: parseInt(voteVal)
         };
         console.log(sendData);
+        /*
+            var sendSelectGameData = {
+            Round_num : Round
+            selected_game : voteVal
+            };
+            console.log(sendSelectGameData)
+
+            doGameSelect(sendSelectGameData);
+            */
 
         doVoteUp(sendData);
 
@@ -138,10 +149,31 @@
                 error : function(xhr, status, error) { // 서버에서 에러가 생겼을 때
                     console.log(xhr);
                     alert("실패!");
+                    console.log(response)
                 }
             });
 
         }
+
+        /*
+        function doGameSelect(sendSelectGameData) {
+            $.ajax({
+                url : "https://kusf-api-4.run.goorm.site/CountUp", 
+                type : "POST", // http 요청 방식
+                data : JSON.stringify(sendRoundData),  // 요청 시 포함되어질 데이터
+                contentType : "application/json",
+                success : function(data, status, xhr) {  // 정상적으로 응답 받았을 때
+                    console.log(data);
+                    alert("성공!");
+                },
+                error : function(xhr, status, error) { // 서버에서 에러가 생겼을 때
+                    console.log(xhr);
+                    alert("실패!");
+                }
+            });
+
+        }
+        */
   
     </script>
 </head>
@@ -167,8 +199,8 @@
             <td>시작시간</td>
         </tr>         
     </table>
-
+    <div>
     <input id="voteBtn" type="button" value="투표">
-
+    </div>
 </body>
 </html>
