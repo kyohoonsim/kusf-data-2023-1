@@ -1,5 +1,4 @@
 from sqlalchemy import create_engine, text
-# import pandas as pd
 
 
 db_connection_info = {
@@ -59,6 +58,30 @@ def read_round():
     return {"roundList" : row_list}
 
 
+def count_up(Round_num: str, Game_num: str) -> dict:
+
+    with engine.connect() as conn:
+        conn.execute(text("UPDATE game_info SET Vote_Count = Vote_Count + 1 WHERE Round_num = :Round_num AND Game_num = :Game_num"), {'Round_num': Round_num, 'Game_num': Game_num})
+        # conn.commit()
+        rows2 = conn.execute(text("SELECT Game_num, Vote_Count FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
+        
+    #with engine.connect() as conn:
+        #rows2 = conn.execute(text("SELECT Game_num, Vote_Count FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
+          
+    columns = rows2.keys()
+    print(columns)
+    
+    row2_list = []
+
+    
+    for row in rows2:
+        row2_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row2_list.append(row2_dict)
+    
+    
+    return {"득표수" : row2_list}
+
+    
 
 if __name__ == "__main__":
     R20_data = read_sch_info('R20')
