@@ -51,9 +51,9 @@ class Vote(BaseModel):
         
     
 @app.post("/votes")
-def create_vote(selected_game: Annotated[int, Body()]):
+def create_vote(selected_game: Annotated[str, Body()]):
     print(f"{selected_game}번 경기가 선택되었습니다")
-    
+    selected_game = int(selected_game)
     global count1, count2, count3, count4, count5, count6
     if selected_game == 1:
         count1 += 1
@@ -79,3 +79,12 @@ def create_vote(selected_game: Annotated[int, Body()]):
     
     response = (f"<{selected_round}라운드 득표 현황> 1경기: {rate1}% / 2경기: {rate2}% / 3경기: {rate3}% / 4경기: {rate4}% / 5경기: {rate5}% / 6경기: {rate6}% / select: {selected_game}")
     return {response}
+
+
+    
+@app.post("/CountUp")
+def show_vote_count(Round_num: Annotated[str, Body()], selected_game: Annotated[int, Body()]):
+    Game_num = str(selected_game) + "경기"
+    print(f"{Game_num}가 선택되었습니다")
+    
+    return crud.count_up(Round_num, Game_num)
