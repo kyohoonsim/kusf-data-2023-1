@@ -40,25 +40,22 @@ def read_round():
 
 def read_round_info(Round_num: str) -> dict:
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT Game_num, Game_Date, Home_Team, Away_Team, TIME_FORMAT(Start_Time, '%H:%i') AS Start_Time FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
+        rows = conn.execute(text("SELECT Game_num, Game_Date, Home_Team, Away_Team, TIME_FORMAT(Start_Time, '%H:%i') AS Start_Time, Vote_Count FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
         
         
     columns = rows.keys()
     print(columns)
     
     row_dict_list = []
+    vote_count_list = []
     for row in rows:
         row_dict = {column: row[idx] for idx, column in enumerate(columns)}
-        row_dict_list.append(row_dict)
+        row_dict_list.append({key: value for key, value in row_dict.items() if key != 'Vote_Count'})
+        vote_count_list.append(row_dict['Vote_Count'])
         
     selected_round = Round_num[1:3]
-    
-    
-    
-    return {
-        # f"{selected_round}Round": row_dict_list        
-        f"Round_number": row_dict_list   
-    }
+        
+    return {"Round_number": row_dict_list, "Updated_Vote_Count": vote_count_list}
 
 
 
@@ -66,7 +63,7 @@ def update_vote_count(Round_num: str, Game_num: str) -> dict:
 
     with engine.connect() as conn:
         conn.execute(text("UPDATE game_info SET Vote_Count = Vote_Count + 1 WHERE Round_num = :Round_num AND Game_num = :Game_num"), {'Round_num': Round_num, 'Game_num': Game_num})
-        # conn.commit()
+        conn.commit() #데이터 베이스에 변경되게 해줌
         rows = conn.execute(text("SELECT Game_num, Vote_Count FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
 
           
@@ -81,7 +78,7 @@ def update_vote_count(Round_num: str, Game_num: str) -> dict:
         row_dict_list.append(row_dict)
     
     
-    return {"득표수" : row_dict_list}
+    return {"득표수": row_dict_list}
 
 
 
@@ -119,7 +116,6 @@ def read_round_period():
         row_end_date.append(start_end_date[k])
 
     return {"Round_row": row_round, "Start_Date": row_start_date, "End_Date": row_end_date}
-
 
 
 
