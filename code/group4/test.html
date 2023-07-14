@@ -83,15 +83,16 @@
             });
         };                          
 
+        var list;
         function getRoundInfo(Round) { // 선택된 라운드 일정 출력
             $.ajax ({
                 url   : "https://kusf-api-4.run.goorm.site/Info/"+ Round,       
                 type   : "GET",
                 success : function(data, status, xhr) {   
-                    var list = data.Round_number;
+                    list = data.Round_number;
                     console.log(list);
 
-                    $("#infoTable").empty(); // 테이블 초기화
+                    $("#infoTable").empty(); // 테이블 삭제
                     var columnTag = "<tr>";
                     columnTag += "<td></td>";
                     columnTag += "<td>경기</td>";
@@ -129,9 +130,11 @@
             });
         };                          
 
+        var Round;
+
         $(document).on("click", "#searchBtn", function(){ 
             $("#initialScreen").hide();
-            var Round = $("#RoundSb").val();
+            Round = $("#RoundSb").val();
             alert(Round + '를 선택하셨습니다.');
 
             var roundNumber = Round.substring(1); // "R" 제외한 숫자 부분 추출
@@ -153,63 +156,83 @@
                 voteVal = node.value;
             }
             }); // 선택된 radio의 value를 voteVal에 저장
-            console.log(voteVal);
-            alert(voteVal + '경기에 투표되었습니다.');
 
-            var sendData = {
-                selected_game: voteVal
-            }; // voteVal을 selected_game로 지정해서 POST(/Vote)로 보내기
-            console.log(sendData);
+            if (voteVal !== "") {
+                console.log(voteVal);
+                alert(voteVal + '경기에 투표되었습니다.');
+                var sendSelectGameData = {
+                Round_num : String(Round),
+                selected_game : Number(voteVal)
+                };
+                console.log(sendSelectGameData)
 
-            /*
-            var sendSelectGameData = {
-            Round_num : Round
-            selected_game : voteVal
-            };
-            console.log(sendSelectGameData)
+                doCountUp(sendSelectGameData);
 
-            doCountUp(sendSelectGameData);
-            // POST(/CountUp)로 보내기
-            */
-
-            doVote(sendData);
-        }); // 선택된 경기를 1~6까지의 숫자(자료형: str)로 반환 -> sendData로 넘김
-
-        function doVote(sendData) {
-            $.ajax({
-                url : "https://kusf-api-4.run.goorm.site/Vote", 
-                type : "POST", 
-                data : JSON.stringify(sendData),  
-                contentType : "application/json",
-                success : function(data, status, xhr) {  
-                    console.log(data);
-                    alert("성공!");
-                },
-                error : function(xhr, status, error) { 
-                    console.log(xhr);
-                    alert("실패!");
-                }
-            });
-        };
-
-        /*
+                // 딜레이 넣기 -> 데이터베이스 업데이트 이슈
+                setTimeout(function() {
+                    getVoteCount(Round);
+                    $("#voteResultTable").show(); // 투표 결과 출력
+                    $("#voteResultTable").prepend("<p> < " + Round + " 투표 결과 > </p>"); // < {Round}투표 결과 > 표 위에 출력
+                }, 1000);
+                
+            } else {
+                console.log("경기가 선택되지 않았습니다.");
+                alert("경기를 선택해주세요.")
+            };  
+        });
+        
         function doCountUp(sendSelectGameData) {
             $.ajax({
                 url : "https://kusf-api-4.run.goorm.site/CountUp", 
                 type : "POST", // http 요청 방식
-                data : JSON.stringify(sendRoundData),  // 요청 시 포함되어질 데이터
+                data : JSON.stringify(sendSelectGameData),  // 요청 시 포함되어질 데이터
                 contentType : "application/json",
                 success : function(data, status, xhr) {  // 정상적으로 응답 받았을 때
                     console.log(data);
-                    alert("성공!");
+                    // alert("성공!");
                 },
                 error : function(xhr, status, error) { // 서버에서 에러가 생겼을 때
                     console.log(xhr);
-                    alert("실패!");
+                    // alert("실패!");
                 }
             });
         };
-        */
+
+        function getVoteCount(Round) { // 선택된 라운드 일정 출력
+            $.ajax ({
+                url   : "https://kusf-api-4.run.goorm.site/Info/"+ Round,       
+                type   : "GET",
+                success : function(data, status, xhr) {   
+                    $("#roundInfoTable").hide();
+                    var voteCount = data.Updated_Vote_Count;
+                    console.log(voteCount);
+
+                    $("#voteCountTable").empty(); // 테이블 삭제
+                    var columnTag = "<tr>";
+                    columnTag += "<td>경기</td>";
+                    columnTag += "<td>득표수</td>";
+                    columnTag += "</tr>";
+
+                    $("#voteCountTable").append(columnTag);
+
+                
+                    for(var i=0; i < voteCount.length; i++) {
+                        var rowHtml = "<tr>";
+                        rowHtml += "<td>" + list[i].Game_num + "</td>";
+                        rowHtml += "<td>" + voteCount[i] + "</td>";
+                        rowHtml += "</tr>";
+                        console.log(voteCount[i]);
+                        console.log(rowHtml);
+                        $("#voteCountTable").append(rowHtml);
+                    }
+                },
+                error   : function(xhr, status, error) {    
+                    console.log(xhr);                      
+                },
+            });
+        };                          
+
+        
 
     </script>
 </head>
@@ -253,6 +276,17 @@
 
         <input id="voteBtn" type="button" value="투표">
     </div>
+
+ 
+    <div id="voteResultTable" style="display: none;">
+        <table id="voteCountTable">
+            <tr>
+                <td>경기</td>
+                <td>득표수</td>
+            </tr>       
+        </table>
+    </div>
+
 
 </body>
 </html>
