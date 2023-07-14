@@ -1,0 +1,339 @@
+<!-- 해야할 일 
+        1. 역대 우취기록 링크 연결
+        2. 투표수 카운트 올라가도록
+        3. 이런저런 배치와 색상 등등 세부적인 부분
+        4. 위치를 요소 별로 일일이 지정해둬서 하나 바꾸면 다 바꿔야하는데 이거 방법을 찾아서 수정하기.......
+        ++코드가 정리되지 않아서 보기가 어려우니 가독성 좋게 수정하기........
+     -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+    <p>            
+    <span style ="color: black;
+    font-size: 50px; font-weight: 80px; 
+    left:250; top: 0px;";> 
+        <strong> 잠실야구장 </strong></span>
+     </p>
+
+
+        <!-- 이미지를 넣으면 안되고 어디에서 불러와야함 ㅠㅠ -->
+
+
+        <p style = "position: absolute; left: 500px; top: 20px;">
+            <img src = "https://blog.kakaocdn.net/dn/ddsp0y/btqyleZOzNA/NCDr6uHomKmGkeKtQQ4Q7K/img.jpg"  
+            width = "110px"; height="100px">
+       
+            <span style = "color: black; font-size: 50px "> <b>VS</b> </span> 
+       
+            <img src = "https://blog.kakaocdn.net/dn/bjVLGJ/btrP80DeFkV/ZkkWD7xSKmX7CEUZvaYyU1/img.jpg"
+           width = "120px"; height="100px">
+       
+           </p>
+
+
+        <!-- 역대 우천취소 기록 페이지로 넘기기 (링크는 아직)-->
+        <a href="https://www.naver.com">
+            <button style = "background-color : #add8e6; 
+            position: absolute; left: 120px;
+            border: none;
+            font-size: 20px;
+            padding : 5px 20px 5px 20px;
+            color: black; text-align: center;">
+            <strong>역대 우천취소 기록 보러가기</strong></button>
+            </a> 
+
+            <br>
+
+            <!--날짜  -->
+<p>
+    <span > 
+    <div style = " font-size: 30px; color: black; position: absolute; left: 300px; top: 20px; " id="current_date">
+
+<script > 
+date = new Date();
+year = date.getFullYear();
+month = date.getMonth() + 1;
+day = date.getDate();
+document.getElementById("current_date").innerHTML = year + "." + month + "." + day;
+</script></span>
+
+</p>
+
+
+
+        <!-- 투표 -->
+    
+    <p style = "position:absolute; left: 700px; top: 30px; width: 500px">            
+        <button type="button" class="btn btn-outline-dark">경기진행</button>
+        <span style = "color: gray; font-size: 20px "> <b>VS</b> </span> 
+        <button type="button" class="btn btn-outline-primary">우천취소</button>
+       
+        </p>
+        
+      </div>
+
+      
+
+       
+
+     <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title >잠실 야구장 우천취소</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-t4GWSVZO1eC8BM339Xd7Uphw5s17a86tIZIj8qRxhnKub6WoyhnrxeCIMeAqBPgdZGlCcG2PrZjMc+Wr78+5Xg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <style>
+        .table-container {
+            display: flex;
+        }
+
+        .table-container .left-table {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .table-container .right-table {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            padding: 5px;
+        }
+    </style>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+</head>
+
+<script>
+    //모든 html이 로딩 되었을 때, 실행
+    $(function() {
+        getSoCount();
+    });
+
+    function getSoCount() {
+        $.ajax ({
+            url	: "https://kusf-api-5-woo.run.goorm.site/baseball/jamsil",         // 요청이 전송될 URL 주소
+            type	: "GET",                            // http 요청 방식 (default: ‘GET’)
+           // data  : {key : value},                    // 요청 시 포함되어질 데이터
+            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                var list = data.data;
+                console.log(list);
+
+                for(var i=0; i<list.length; i++) {
+                    var rowHtml = "<tr>";
+                    rowHtml += "<td>" + list[i].date + "</td>";
+                    rowHtml += "<td>" + list[i].avg_amount + "</td>";
+                    rowHtml += "<td>" + list[i].max_amount + "</td>";
+                    rowHtml += "</tr>";
+                    
+                    console.log(rowHtml);
+
+                    $("#soTable1").append(rowHtml); // 첫 번째 테이블에 추가
+                }
+            },
+            error	: function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                console.log(xhr);                      
+            },
+        });
+        $("#videoContainer1").html('<iframe width="560" height="315" src="http://cctvsec.ktict.co.kr/5730/s/N54S/R4Tu2xAmurUee587UaEFk9K5RkSwOU8UaD1/IiK41QDBaMBVm2Zy6aZsNAWI71AqOeER6s+EfD++0uQ==" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+        $("#videoContainer2").html('<iframe width="560" height="315" src="https://www.weather.go.kr/wgis-nuri/html/map.html" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+    }
+</script>
+
+
+
+
+     
+
+            
+
+
+
+
+<body>
+    <!-- 실시간 씨씨티비 -->
+
+
+    <div style = "position: absolute; top: 270px; left: 120px;">
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    </head>
+    <iframe width="450" height="300" src="http://www.utic.go.kr/view/map/cctvStream.jsp?cctvid=L010284&cctvname=%25EC%25A2%2585%25ED%2595%25A9%25EC%259A%25B4%25EB%258F%2599%25EC%259E%25A5&kind=Seoul&cctvip=null&cctvch=52&id=214&cctvpasswd=null&cctvport=null&minX=127.05903130899338&minY=37.494963513885715&maxX=127.08947252354741&maxY=37.52026774564739" frameborder="0"></iframe>
+    </html>
+    
+    </div>
+
+
+    <div class="container">
+        <hr>
+        <hr>
+
+
+
+        <div class="table-container">
+            <div class="left-table">
+                <h2 style="background-color: #add8e6;
+                font-size: 20px;
+                padding : 5px 20px 5px 20px;
+                color: black;
+                text-align: center;">
+                <strong>역대 잠실야구장 우천취소 기록 </strong></h2>
+                <table id="soTable1"> <!-- id 수정 -->
+                    <style>
+                        table {
+                            text-align: center; 
+                            border: 3px; background-color: white; 
+                            th, td {border-bottom: 1px solid #444444;
+                                padding: 10px;}
+                                  width: 100%;
+                                  border-top: 1px solid #444444;
+                                  border-collapse: collapse;
+                        } 
+                      </style>
+                    <tbody>
+                        <tr>
+                            <td>날짜</td>
+                            <td>평균 강수량</td>
+                            <td>최대 강수량</td>
+
+                        </tr>
+                        <!-- 다른 테이블 데이터 추가 -->
+                    </tbody>
+                </table>
+                <div id="videoContainer1"></div>
+                <div id="videoContainer2"></div>
+            </div>
+
+            <div class="right-table">
+                <h2 style="background-color: #add8e6;
+                font-size: 20px;
+                padding : 5px 20px 5px 20px;
+                color: black; text-align: center;"><strong>잠실야구장 예상강수량</strong></h2>
+
+                <form action="#">
+                    <label for="datepick">날짜 선택</label>
+                    <input type="text" id="datepick" />
+                    <button>조회</button>
+                </br>
+                </form>
+                <table class="table table-hover" id="soTable2"> <!-- id 추가 -->
+                    <thead>
+                        <tr>
+                            <th>날짜</th>
+                            <th>시간</th>
+                            <th>강수량</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">조회내용이 없습니다.</td>
+                        </tr>
+                        <!-- 다른 테이블 데이터 추가 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+   <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+   <script>
+    $( "#datepick" ).datepicker({
+        dateFormat: "yymmdd",
+        minDate: "-1d",
+        maxDate: "d",
+    });
+    $( "#datepick" ).datepicker( "setDate", new Date() );
+
+
+    // let date = new Date();
+    // let year = date.getFullYear();
+    // let month = "0"+ (date.getMonth()+1);
+    // let month2 = month.substr(-2);
+    // let day = "0"+date.getDate();
+    // let day2 = day.substr(-2);
+    // let initDate = year +  month2 + day2;
+
+    let initDate = $("#datepick").val();
+
+    $('form').submit(()=>{
+        let tDate = $( "#datepick" ).val();
+        weather(tDate);
+    });
+
+   
+
+    function weather(initDate){
+        console.log(initDate);
+        $.ajax({
+        url: `https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=D%2Fg4%2F9ximGLtthAcNKv4P51bNUdG8Crzu0%2Fv1dJZt77c2N3R4TSni8mn0BaTR4%2FSfjTiR4pBQUEnLHOGO2ilHw%3D%3D&pageNo=1&numOfRows=1000&dataType=JSON&base_date=${initDate}&base_time=0200&nx=62&ny=126`,
+        success: function (result) {
+            console.log(result);
+            let items = result.response.body.items.item;
+
+            // let filteredItems = [];
+            // for(let i = 0; i<items.length;i++){
+            //     if(items[i].category == "PCP") {
+            //         filteredItems.push(items[i]);
+            //     }
+            // }
+            let filteredItems = items.filter((item)=>{
+                return item.category == "PCP";
+            });
+            
+            makeTable(filteredItems);
+        },
+    });
+    } //날씨조회 테이블 생성 함수
+    weather(initDate);
+    
+    function makeTable(src){
+        let tableHTML = '';
+        src.forEach(item=>{
+          tableHTML += `<tr>
+            <td>${item.fcstDate}</td>
+            <td>${item.fcstTime}</td>
+            <td>${item.fcstValue}</td>
+        </tr>`;
+        });
+        $('#soTable2 tbody').html(tableHTML); // 두 번째 테이블에 추가
+    }
+</script> 
+</body>
+
+
+
+</html>
+
+
+<body>
+    
+</body>
+</html>
