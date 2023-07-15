@@ -205,23 +205,28 @@
                 success : function(data, status, xhr) {   
                     $("#roundInfoTable").hide();
                     var voteCount = data.Updated_Vote_Count;
+                    var voteRate = data.voteResult;
                     console.log(voteCount);
+                    console.log(voteRate);
 
                     $("#voteCountTable").empty(); // 테이블 삭제
                     var columnTag = "<tr>";
                     columnTag += "<td>경기</td>";
                     columnTag += "<td>득표수</td>";
+                    columnTag += "<td>득표비율(%)</td>";
                     columnTag += "</tr>";
 
                     $("#voteCountTable").append(columnTag);
 
-                
+
                     for(var i=0; i < voteCount.length; i++) {
                         var rowHtml = "<tr>";
                         rowHtml += "<td>" + list[i].Game_num + "</td>";
                         rowHtml += "<td>" + voteCount[i] + "</td>";
+                        rowHtml += "<td>" + voteRate[i] + "%" + "</td>"; //////////////////// 확인
                         rowHtml += "</tr>";
                         console.log(voteCount[i]);
+                        console.log(voteRate[i]);
                         console.log(rowHtml);
                         $("#voteCountTable").append(rowHtml);
                     }
@@ -283,6 +288,7 @@
             <tr>
                 <td>경기</td>
                 <td>득표수</td>
+                <td>득표비율</td>
             </tr>       
         </table>
     </div>
