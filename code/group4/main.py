@@ -26,6 +26,12 @@ app.add_middleware(
 )
 
 
+@app.get("/RoundPeriod")
+def get_round_period():
+    return crud.read_round_period()
+
+
+
 @app.get("/Round")
 def get_round():
     return crud.read_round()
@@ -35,21 +41,16 @@ def get_round():
 @app.get("/Info/{Round_num}")
 def get_round_info(Round_num: str):
     global selected_round  # 전역 변수를 사용하도록 선언
-    selected_round = Round_num[1:3]
+    selected_round = Round_num[1:]
     print(f"{selected_round}라운드가 선택되었습니다")
     return crud.read_round_info(Round_num)
 
 
-    
+
+
 @app.post("/CountUp")
 def show_vote_count(Round_num: Annotated[str, Body()], selected_game: Annotated[int, Body()]):
     Game_num = str(selected_game) + "경기"
     print(f"{Game_num}가 선택되었습니다")
     
     return crud.update_vote_count(Round_num, Game_num)
-
-
-
-@app.get("/RoundPeriod")
-def get_round_period():
-    return crud.read_round_period()
