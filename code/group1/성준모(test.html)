@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="./text.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script>
+        $(document).on("click", "#submitBtn1", function(e) {
+            var home_team = $("#home_team").val();
+            
+            getTeamFoul(home_team);
+        });
+
+        function getTeamFoul(home_team) {
+
+            $("#foulTable").empty();
+
+            $.ajax ({
+                url	: "https://kusf-api-1-chungsu.run.goorm.site/" + home_team,   // 요청이 전송될 URL 주소
+                type : "GET",                            // http 요청 방식 (default: ‘GET’)
+                //data  : {key : value},                    // 요청 시 포함되어질 데이터
+                success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                    var list = data.team_percentage_data;
+                    console.log(list);
+
+                    for(var i=0; i<list.length; i++) {
+                        var rowHtml = "<tr>";
+                        rowHtml += "<td>" + list[i][0] + "</td>";
+                        rowHtml += "<td>" + list[i][1] + "</td>";
+                
+                    
+                        console.log(rowHtml);
+
+                        $("#foulTable").append(rowHtml);
+                    }
+                },
+                error	: function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                    console.log(xhr);                      
+                },
+            });
+        };
+    </script>
+</head>
+<body style="background-color:rgb(80, 183, 84)">
+    <img src="./KakaoTalk_20230715_012527658.jpg" class="foul_image">
+    <form action="#" id="choose1">
+        <fieldset>
+            <legend class="choice1">필수 선택사항</legend>
+            <ul>
+                <li>
+                    <label for="home_team"><span>팀:</span></label>
+                    <select class="home_team" name="home_team" id="home_team">
+                        <option value="">==선택==</option>
+                        <option value="LG">LG트윈스</option>
+                        <option value="SSG">SSG랜더스</option>
+                        <option value="두산">두산베어스</option>
+                        <option value="NC">NC다이노스</option>
+                        <option value="롯데">롯데자이언츠</option>
+                        <option value="KIA">KIA타이거즈</option>
+                        <option value="KT">KT위즈</option>
+                        <option value="한화">한화이글스</option>
+                        <option value="키움">키움히어로즈</option>
+                        <option value="삼성">삼성라이온스</option>
+                    </select>
+                </li>
+            </ul>
+            <input id="submitBtn1" type="button" value="확인" style="margin-left:65px;"/>
+        </fieldset>
+    </form>
+    <div>
+        <form action="#" id="choose2">
+            <fieldset>
+                <p>
+                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        선택사항 선택
+                    </button>
+                </p>
+                    <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                <legend class="choice2">선택사항</legend>
+                <ul>
+                    <li>
+                        <p>
+                            
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                타자 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                                <label for="batter_name"><span>타자:</span></label>
+                                <select class="batter_name" name="batter_name" id="batter_name">
+                                    <option value="">==선택==</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </div>
+                            </div>
+                        
+                    </li>
+                    <li>
+                        <p>
+                            
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                상대팀&투수 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                        <label for="away_team"><span>상대팀:</span></label>
+                        <select class="away_team" name="away_team" id="away_team">
+                            <option value="">==선택==</option>
+                            <option value="LG">LG트윈스</option>
+                            <option value="SSG">SSG랜더스</option>
+                            <option value="두산">두산베어스</option>
+                            <option value="NC">NC다이노스</option>
+                            <option value="롯데">롯데자이언츠</option>
+                            <option value="KIA">KIA타이거즈</option>
+                            <option value="KT">KT위즈</option>
+                            <option value="한화">한화이글스</option>
+                            <option value="키움">키움히어로즈</option>
+                            <option value="삼성">삼성라이온스</option>
+                        </select>
+                        <label for="pitcher_name"><span>투수:</span></label>
+                        <select class="pitcher_name" name="pitcher_name" id="pitcher_name">
+                            <option value="">==선택==</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </li>
+                    <li>
+                        <p>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                경기날짜 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                        <span>경기날짜:</span> <input class="match_date" type="date">
+                    </li>
+                    <li>
+                        <p>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                OUT카운트 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                        <span>OUT 카운트:</span>
+                        <em>
+                            <label></label><input class="out_count" type="radio" name="out" value="0">0</label>
+                            <label><input type="radio" name="out" value="1">1</label>
+                            <label><input type="radio" name="out" value="2">2</label>
+                        </em>    
+                    </li>
+                    <li>
+                        <p>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                STRIKE카운트 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                        <span>STRIKE 카운트:</span>
+                        <em>
+                            <label><input class="strike_count" type="radio" name="strike" value="0">0</label>
+                            <label><input type="radio" name="strike" value="1">1</label>
+                            <label><input type="radio" name="strike" value="2">2</label>
+                        </em>
+                    </li>
+                    <li>
+                        <p>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                BALL카운트 선택
+                            </button>
+                        </p>
+                            <div class="collapse" id="collapseExample">
+                            <div class="card card-body">
+                        <span>BALL 카운트:</span>
+                        <em>
+                            <label><input class="ball_count" type="radio" name="ball" value="0">0</label>
+                            <label><input type="radio" name="ball" value="1">1</label>
+                            <label></label><input type="radio" name="ball" value="2">2</label>
+                            <label></label><input type="radio" name="ball" value="3">3</label>
+                        </em>
+                    </li>
+                </ul>
+                <input id="submitBtn4" type="submit" value="확인" style="margin-left:150px;"/>
+            </fieldset>
+        </form>
+    </div>
+    <form action="#" id="choose3">
+        <fieldset>
+        <label></label>
+        <table >
+            <thead>
+                <tr>
+                    <td>구역</td>
+                    <td>파울발생확률</td>
+                </tr>
+            </thead>
+            <tbody id="foulTable">
+
+            </tbody>
+        </table>
+        </fieldset>
+    </form>
+</body>
+</html>
