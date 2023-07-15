@@ -1,0 +1,86 @@
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+span {
+    font-weight:600;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#choose1 {
+    border:4px solid #222;
+    padding: 10px;
+    position:absolute;
+    top: 10px;
+    margin-left:55%;
+}
+#choose2 {
+    border:4px solid #222;
+    padding: 10px;
+    position:absolute;
+    top: 190px;
+    margin-left:55%;
+}
+#choose3 {
+    border:4px solid #222;
+    padding: 10px;
+    position:absolute;
+    top: 10px;
+    margin-left:80%;
+}
+legend{
+    font-weight: 900;
+}
+#submitBtn1 {
+    color:rgb(252, 252, 252);
+    background-color: #6c6d75;
+}
+#submitBtn2 {
+    color:rgb(252, 252, 252);
+    background-color: #223c45;
+}
+#submitBtn3 {
+    color:rgb(252, 252, 252);
+    background-color: #d30505;
+}
+#submitBtn4 {
+    color:rgb(252, 252, 252);
+    background-color: #6c6d75;
+}
+#submitBtn5 {
+    color:rgb(252, 252, 252);
+    background-color: #223c45;
+}
+#submitBtn6 {
+    color:rgb(252, 252, 252);
+    background-color: #d30505;
+}
+.foul_image {
+    width: 800px;
+    height: 700px;
+}
+.home_team:hover {
+    font-weight: bold;
+    color: blue;
+}
+.away_team:hover {
+    font-weight: bold;
+    color: blue;
+}
+.batter_name:hover {
+    font-weight: bold;
+    color: blue;
+}
+.pitcher_name:hover {
+    font-weight: bold;
+    color: blue;
+}
+.match_date:hover {
+    font-weight: bold;
+    color: blue;
+}
+.choice1 {
+    text-align: center;
+}
+.choice2 {
+    text-align: center;
+}
