@@ -38,4 +38,4 @@
 - 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조:
 - 4조:
-- 5조: 
+- 5조: https://kusf-data-xnnng.run-ap-south1.goorm.site/kusf.html
