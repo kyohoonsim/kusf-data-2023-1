@@ -3,13 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>잠실의 주인은 누구조</title>
+    <link href="./K리그.png" rel="shortcut icon" type="image/x-icon">
+
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <!--  부트스트랩 js 사용 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap.js"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 제이쿼리 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+
+
     <style> /* table 스타일 변경 -> 각 테이블의 스타일을 다르게 해야될듯*/
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            width : 500px;
-        };
+
+
+        #periodTable tr, #periodTable td {
+            /*
+            border: 1px solid blue !important;
+            background-color: gray !important;
+            border-collapse: collapse !important;
+            width : 800px;
+            */
+            width : 200px;
+            text-align: center;
+        }
+
+        #infoTable tr, #infoTable td {
+            /*
+            border: 1px solid red !important;
+            background-color: yellow !important;
+            border-collapse: collapse !important;  border 이중선/단일선
+            */
+            width : 100px;
+            text-align: center;
+        }
+
+        #voteCountTable tr, #voteCountTable td {
+            /*
+            border: 1px solid red !important;
+            background-color: yellow !important;
+            border-collapse: collapse !important;  border 이중선/단일선
+            */
+            width : 100px;
+            text-align: center;
+        }
         
     </style>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
@@ -115,8 +162,10 @@
                             rowHtml += '<td><input type="radio" name="vote" value="' + j + '" id="' + vote_id + '"></td>';
                             rowHtml += "<td>" + list[i].Game_num + "</td>";
                             rowHtml += "<td>" + formattedDate + "</td>";
-                            rowHtml += "<td>" + list[i].Home_Team + "</td>";
-                            rowHtml += "<td>" + list[i].Away_Team + "</td>";
+                            // rowHtml += "<td><img src=./" + list[i].Home_Team + ".png width=20 height=20>" + "</td>";
+                            rowHtml += "<td><img src=./" + list[i].Home_Team + ".png width=20 height=20> " + list[i].Home_Team + "</td>";
+                            rowHtml += "<td>" + list[i].Away_Team + " <img src=./" + list[i].Away_Team + ".png width=20 height=20></td>";
+                            // rowHtml += "<td>" + "<img src=./" + list[i].Away_Team + ".png width=20 height=20></td>";
                             rowHtml += "<td>" + list[i].Start_Time + "</td>";
                             rowHtml += "</tr>";
                             console.log(rowHtml);
@@ -243,6 +292,18 @@
 </head>
 
 <body>
+    <div style="display: flex; gap: 20px; align-items: center;">
+        <img src=./K리그.png width=50 height=50>
+        <p>
+        <strong>
+            <h1>
+                Vote For Your Match
+            </h1>
+        </strong>
+        </p>
+    </div>
+    <hr>
+
     <div id="initialScreen">
         <table id="periodTable">
             <tr>
@@ -250,14 +311,13 @@
                 <td>기간</td>
             </tr>         
         </table>
-
-        <br>
+        <hr>
 
         Round:
     
         <select id="RoundSb"></select>
 
-        <input id="searchBtn" type="button" value="조회"/> 
+        <button type="button" class="btn btn-primary" id="searchBtn">조회</button> 
 
     </div>
 
@@ -273,17 +333,21 @@
                 <td></td>
                 <td>경기</td>
                 <td>날짜</td>
+                <td></td>
                 <td>홈</td>
                 <td>어웨이</td>
+                <td></td>
                 <td>시작시간</td>
             </tr>         
         </table>
+        <hr>
 
-        <input id="voteBtn" type="button" value="투표">
+        <button type="button" class="btn btn-primary" id="voteBtn">투표</button>
     </div>
 
  
     <div id="voteResultTable" style="display: none;">
+        <hr>
         <table id="voteCountTable">
             <tr>
                 <td>경기</td>
@@ -291,6 +355,7 @@
                 <td>득표비율</td>
             </tr>       
         </table>
+        <hr>
     </div>
 
 
