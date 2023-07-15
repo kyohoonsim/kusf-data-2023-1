@@ -35,13 +35,14 @@
 
 ## 공모전
 
-### 각 조별 서비스 주소
+### 서비스 주소
 - 1조: https://kusf-runner-cmvni.run.goorm.site/foul.html
 - 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조: https://kusf-data-pwmnp.run.goorm.site/seegether.html, https://kusf-sportsdata-tyrch.run.goorm.site/kusf1.html
 - 4조: https://kusf-test-vbuca.run.goorm.site/test.html
 - 5조: https://kusf-data-xnnng.run-ap-south1.goorm.site/kusf.html
 
-### 발표자료
-- 제출기한: 2023-07-19 AM 11:59:59
+### 발표
+- 발표자료 제출기한: 2023-07-19 AM 11:59:59
 - 제출 이메일: kyohoonsim@gmail.com, 
+- 10분 발표, 5분 질의응답
