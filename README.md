@@ -35,7 +35,7 @@
 
 ## 서비스 주소
 - 1조:
-- 2조:
+- 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조:
 - 4조:
 - 5조: 
