@@ -34,7 +34,7 @@
 1. 간편 로그인 기능 구현: https://www.furo.one
 
 ## 서비스 주소
-- 1조:
+- 1조: https://kusf-runner-cmvni.run.goorm.site/foul.html
 - 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조:
 - 4조:
