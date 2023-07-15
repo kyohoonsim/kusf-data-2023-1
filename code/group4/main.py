@@ -54,3 +54,6 @@ def show_vote_count(Round_num: Annotated[str, Body()], selected_game: Annotated[
     print(f"{Game_num}가 선택되었습니다")
     
     return crud.update_vote_count(Round_num, Game_num)
+
+
+
