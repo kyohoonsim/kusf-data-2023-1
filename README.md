@@ -36,6 +36,6 @@
 ## 서비스 주소
 - 1조: https://kusf-runner-cmvni.run.goorm.site/foul.html
 - 2조: https://kusf-data-hqlej.run.goorm.site/
-- 3조:
+- 3조:https://kusf-sportsdata-tyrch.run.goorm.site/kusf.html
 - 4조: https://kusf-test-vbuca.run.goorm.site/test.html
 - 5조: https://kusf-data-xnnng.run-ap-south1.goorm.site/kusf.html
