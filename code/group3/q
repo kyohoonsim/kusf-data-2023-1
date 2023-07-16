@@ -1,0 +1,216 @@
+(1) new_crud 코드
+
+from sqlalchemy import create_engine, text
+
+db_connection_info = {
+    'user': 'root',
+    'password': 'asdf1234!',
+    'host': '127.0.0.1',
+    'port': 3306,
+    'database': 'kusf3'
+}
+
+
+db_url = f"mysql+mysqlconnector://{db_connection_info['user']}:{db_connection_info['password']}@{db_connection_info['host']}:{db_connection_info['port']}/{db_connection_info['database']}?charset=utf8"
+print(db_url)
+
+engine = create_engine(db_url, max_overflow=0)
+    
+
+#1-1. 종목에 따라 테이블 다르게 나오게하기
+
+def sports_game_date(sports_type):
+    if sports_type == "baseball":
+        table_name = "baseball_game_date"
+    elif sports_type == "soccer":
+        table_name = "soccer_game_date"
+    
+    with engine.connect() as conn:
+        rows = conn.execute(text(f"select * from {table_name}"))
+    
+    columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {f"{sports_type} date": row_dict_list }
+
+if __name__ == "__main__":
+    sc_date = sports_game_date('soccer')
+    print(sc_date)
+    
+#1-2. 팀별로
+
+def read_baseball_team_data(team:str):
+    query = "SELECT * FROM baseball_game_date WHERE 1 = 1"
+    if team:
+        query += f" AND (home_team = '{team}' OR away_team = '{team}')"
+    
+    with engine.connect() as conn:
+        rows = conn.execute(text(query))
+
+        columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {f"{team} 경기 일정": row_dict_list }
+
+    
+    
+# 2. 지역에 따라 경기 일정을 반환해주는 함수
+
+def place_baseball_date(place: str):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from baseball_game_date where place =  :place"), {'place': place})
+        columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {f"{place} 일정": row_dict_list }
+    
+    
+    
+# 3. 경기 ID 입력하면 모임 정보 뜨게 하기
+
+
+def baseball_game_group_data(baseball_game_ID):
+    with engine.connect() as conn:
+        rows = conn.execute(text("select * from baseball_group_data where baseball_game_ID =  :baseball_game_ID"), {'baseball_game_ID': baseball_game_ID})
+        columns = rows.keys()
+    
+    row_dict_list = []
+    for row in rows:
+        row_dict = {column: row[idx] for idx, column in enumerate(columns)}
+        row_dict_list.append(row_dict)
+    
+    return {f"{baseball_game_ID} 경기 모임": row_dict_list }
+    
+(2) new_main 코드
+
+from fastapi import FastAPI
+
+import new_crud
+
+app = FastAPI(title='seegether')
+
+#종목별
+@app.get("/sports/{sports_type}")
+def get_sports_date_game(sports_type:str):
+    return new_crud.sports_game_date(sports_type)
+
+#지역별
+@app.get("/place/{place}")
+def place_baseball_data(place:str):
+    return new_crud.place_baseball_date(place)
+
+#팀별
+
+@app.get("/bs_team/{team}")
+def read_baseball_team_data(team:str):
+    return new_crud.read_baseball_team_data(team)
+
+
+#그룹
+@app.get("/baseball_game_ID/{baseball_game_ID}")
+def baseball_group_data(place:str):
+    return new_crud.baseball_game_group_data(baseball_game_ID)
+
+
+(3)
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>경기 일정</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    
+    <script>
+        //html 테그가 다 로딩되고 실행
+        $(function(){
+            Sportstype();
+        });
+
+        // 종목별 데이터를 받는 함수
+    function Sportstype(sports_type) {
+        $.ajax ({
+            url   : "https://kusf-api-3-zim.run.goorm.site/sports",                                // 요청이 전송될 URL 주소
+            type   : "GET",                            // http 요청 방식 (default: ‘GET’)
+            data  : {key : value},                    // 요청 시 포함되어질 데이터
+            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                var list = data.sports_type; //무슨 데이터를 넣어야하지??
+                console.log(list);
+
+                for(var i=0; i<list.length; i++) {
+                    var rowHtml = "<tr>";
+                    rowHtml += "<td>" + list[i].date + "</td>";
+                    rowHtml += "<td>" + list[i].time + "</td>";
+                    rowHtml += "<td>" + list[i].game + "</td>";
+                    rowHtml += "<td>" + list[i].stadium + "</td>";
+                    rowHtml += "<td>" + list[i].group_count + "</td>";
+                    rowHtml += "<td>" + list[i].SO + "</td>";
+                    rowHtml += "</tr>";
+                    
+                    console.log(rowHtml);
+
+                    $("#soTable").append(rowHtml);
+                }
+            },
+            error   : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                console.log(xhr);                      
+            },
+        });
+    }
+
+        $(document).on("click","#searchBtn",function(){
+            var 종목 = $("#sportstypeSb").val();
+            var 지역 = $("#placeSb").val();
+            var 팀 = $("#teamSb").val();
+
+            getSoCount(sportstype, place, team);
+
+        });
+    </script>
+
+</head>
+<body>
+    종목 :
+    <select id="sportstypeSb">
+        <option value="baseball">야구</option>
+        <option value="soccer">축구</option>
+    </select>
+
+
+    <input id="searchBtn" type="button" value="조회"/>
+
+    <hr/> 
+
+    <table id="soTable">
+        <tr>
+            <th>날짜</th>
+            <th>시간</th>
+            <th>경기</th>
+            <th>경기장</th>
+            <th>현재 모임 수</th>
+        </tr>
+    </table>
+
+</body>
+</html>
