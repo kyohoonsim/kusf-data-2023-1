@@ -1,0 +1,27 @@
+button{
+    width : 120px;
+    height: 40px;
+    background-color: #004fff;
+    border : none;
+    color: white;
+    box-shadow: 0 4px 16px rgba(0, 79, 255, 0.3);
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 90%;
+    /*transfrom: translate(-50%, -50%)*/
+    transition: 0.3s; /*마우스가 올라갔을 때 버튼이 반응하는 시간*/
+}
+
+/*마우스가 focus(클릭) 됐을 때 변화가 없도록 해라*/
+button:focus{
+    outline: 0;
+}
+
+button:hover{
+    background-color: rgba(0, 79, 255, 0.9);
+    cursor: pointer; /*마우스를 버튼 위에 올리면 눌린다는 느낌 주기*/
+    box-shadow : 0 2px 4px rgba(0, 79, 255, 0.6);
+}
