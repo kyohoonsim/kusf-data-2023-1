@@ -39,7 +39,7 @@
 - 1조: https://kusf-runner-cmvni.run.goorm.site/foul.html
 - 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조: https://kusf-data-pwmnp.run.goorm.site/seegether.html, https://kusf-sportsdata-tyrch.run.goorm.site/kusf1.html
-- 4조: https://kusf-test-vbuca.run.goorm.site/test.html
+- 4조: https://kusf-test-vbuca.run.goorm.site/Vote_For_Your_Match.html
 - 5조: https://kusf-data-xnnng.run-ap-south1.goorm.site/kusf.html
 
 ### 발표
