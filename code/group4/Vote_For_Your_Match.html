@@ -211,6 +211,7 @@
         };
 
 
+
         function getVoteCount(Round) { // 업데이트 된 투표수 가져오기
             $.ajax ({
                 url   : "https://kusf-api-4.run.goorm.site/Info/"+ Round,       
@@ -313,7 +314,9 @@
             // 경기 선택 O
             if (voteVal !== "") {
                 console.log(voteVal);
-                alert(voteVal + '경기에 투표되었습니다.');
+                const selectedGame = list[Number(voteVal) - 1]; // Adjust the index to match the correct game
+                const message = '"' + selectedGame.Home_Team + ' vs ' + selectedGame.Away_Team + '" 경기에 투표되었습니다.';
+                alert(message); // "~~ vs ~~" 경기에 투표되었습니다.
 
                 // 선택된 경기 백앤드로 보내기
                 var sendSelectGameData = {
