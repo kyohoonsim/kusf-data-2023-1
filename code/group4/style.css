@@ -8,72 +8,31 @@
   margin-left: 140px;
 }
 
-/*
-#periodTable tr, #periodTable td {
-    width : 400px;
-    text-align: center;
-}
-*/
 
-#infoTable tr, #infoTable td {
-    width : 100px;
-    text-align: center;
-}
 
-#infoTable td:nth-child(1) {
-  width: 25px;
+table {
+  width: 100%;
+  border-top: 1px solid #444444;
+  border-collapse: collapse;
+}
+th, td {
+  border-bottom: 1px solid #444444;
+  /*padding: 0px;*/
 }
 
-#infoTable td:nth-child(2) {
-  width: 100px;
-}
 
-#infoTable td:nth-child(3) {
-  width: 150px;
-}
-
-#infoTable td:nth-child(4) {
-  width: 100px;
-}
-
-#infoTable td:nth-child(5) {
-  width: 5px;
-}
-
-#infoTable td:nth-child(6) {
-  width: 100px;
-}
-
-#infoTable td:nth-child(7) {
-  width: 100px;
-}
-
-#voteCountTable tr, #voteCountTable td {
-    /*
-    border: 1px solid red !important;
-    background-color: yellow !important;
-    border-collapse: collapse !important;  border 이중선/단일선
-    */
-    width : 100px;
-    text-align: center;
-}
 
 body {
-    width: 100vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #191919;
-    color: #ffffff;
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #191919;
+  color: #ffffff;
 }
 
-#titleWrapper {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 77%;
-}
+
 
 .content-container__content {
   display: none;
@@ -83,11 +42,22 @@ body {
   display: block;
 }
 
+.tab-wrapper {
+  display: flex; 
+  list-style-type: none; 
+  margin-bottom: 20px; 
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-left: -10%;
+  margin-top: -40px;
+}
+
 .tab-container__item_active {
   border-bottom: 2px solid #2BFFCC;
   color: #2BFFCC;
   cursor: pointer;
-  width: 150px;
+  width: 125px;
   height: 35px;
   display: flex;
   align-items: center;
@@ -98,7 +68,7 @@ body {
 
 .tab-container__item {
   cursor: pointer;
-  width: 150px;
+  width: 125px;
   height: 35px;
   display: flex;
   align-items: center;
@@ -107,177 +77,80 @@ body {
   /* border: 1px solid black; */
 }
 
-.tab-wrapper {
-    display: flex; 
-    list-style-type: none; 
-    margin-bottom: 20px; 
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-left: -155px;
-    margin-top: -40px;
+
+
+#titleWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 77%;
 }
 
-table {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-  }
-  th, td {
-    border-bottom: 1px solid #444444;
-    padding: 8px;
-  }
+#searchWrapper{
+  margin-top: 50px;
+}
 
-  #initialScreen {
-    width: 80%;
-    display: flex;
-    justify-content: space-between;
-  }
+#RoundSb {
+  color: black;
+  margin-left: 8px;
+}
 
+#searchBtn {
+  background-color: #2BFFCC;
+  border: 1px solid #2BFFCC;
+  border-radius: 4px;
+  width: 50px;
+  height: 30px;
+  color: black;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-right : -23px;
+}
 
-
-
-  .custom-calendar {
-    width: 55%;
-    height: 500px;
-    margin-left: 25px;
-    color: #2BFFCC;
-  }
-
-
-  .table-wrapper {
-    max-height: 450px;
-    margin-top: 56px;
-    overflow-y: auto; 
-    overflow-x: hidden;
-    width: 30%;
-} 
-
-  #periodTable {
-    width: 100%;
-    border-top: 1px solid #444444;
-    border-collapse: collapse;
-    text-align: center;
-    td:nth-child(1){width: 150px};
-    td:nth-child(2){width: 500px};
-  }
-
-  
-  #RoundSb {
-    color: black;
-    margin-left: 8px;
-  }
-
-
-
-  #searchBtn {
-    background-color: #2BFFCC;
-    border: 1px solid #2BFFCC;
-    border-radius: 4px;
-    width: 50px;
-    height: 30px;
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-left: 12px;
-    margin-right : -23px;
-  }
-
-
-
-  
-  #searchBtn:hover {
-    background-color: #19a585;
-    border: 1px solid #19a585;
-    margin-left : 12px;
-    margin-right : -23px;
-  }
-
-  #searchWrapper{
-    margin-top: 50px;
-  }
-
-  #voteBtn {
-    background-color: #2BFFCC;
-    border: 1px solid #2BFFCC;
-    border-radius: 4px;
-    width: 70px;
-    height: 30px;
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    margin-left: 1000px;
-  }
-
-  #voteBtn:hover {
-    background-color: #19a585;
-    border: 1px solid #19a585;
-    margin-left: 1000px
-  }
-
-  #backBtn {
-    background-color: #2BFFCC;
-    border: 1px solid #2BFFCC;
-    border-radius: 4px;
-    width: 80px;
-    height: 30px;
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  #backBtn:hover {
-    background-color: #19a585;
-    border: 1px solid #19a585;
-  }
-
-  #homeBtn {
-    background-color: #2BFFCC;
-    border: 1px solid #2BFFCC;
-    border-radius: 4px;
-    width: 80px;
-    height: 30px;
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-
-  #homeBtn:hover {
-    background-color: #19a585;
-    border: 1px solid #19a585;
-  }
-
-
-  /* FullCalendar의 요일 헤더 텍스트 색상 변경 */
-  .fc-day-header {
-    color: #ffffff;
-  }
-
-  /* FullCalendar의 날짜 텍스트 색상 변경 */
-  .fc-daygrid-day {
-    color: #ffffff !important;
-  }
-
-  .fc-col-header-cell-cushion {
-      color: #ffffff !important;
-  }
-
-  .fc-daygrid-day-number {
-      color: #ffffff !important;
-  }
-
-
-/* #19a585 원본색, 오늘 날짜*/
-.fc {
-  --fc-today-bg-color: #777777;
+#searchBtn:hover {
+  background-color: #19a585;
+  border: 1px solid #19a585;
+  margin-left : 12px;
+  margin-right : -23px;
 }
 
 
+
+#initialScreen {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-calendar {
+  width: 55%;
+  height: 500px;
+  margin-left: 25px;
+  color: #2BFFCC;
+}
+
+/* FullCalendar의 요일 헤더 텍스트 색상 변경 */
+.fc-day-header {
+  color: #ffffff;
+}
+
+/* FullCalendar의 날짜 텍스트 색상 변경 */
+.fc-daygrid-day {
+  color: #ffffff !important;
+}
+
+.fc-col-header-cell-cushion {
+  color: #ffffff !important;
+}
+
+.fc-daygrid-day-number {
+  color: #ffffff !important;
+}
+
 .fc {
+  --fc-today-bg-color: #777777; /* 오늘 날짜 */
   --fc-button-bg-color: #ffffff;
   --fc-button-text-color: #000000;
   --fc-button-border-color: #ffffff;
@@ -287,12 +160,210 @@ table {
   --fc-button-active-border-color: #444444;
 }
 
+/* table1과 table2의 높이 제한 및 스크롤 가능하도록 스타일링 */
+.table-wrapper {
+  max-height: 450px;
+  margin-top: 56px;
+  width: 400px;
+}
 
-  .progress-bar-custom {
-    width: 120px;
-    height: 20px;
-    background-color: #f0f0f0;
-    border-radius: 3px;
-    margin-bottom: 5px;
-  /* margin-right: 5px; */
-  }
+/* table1과 table2의 테두리 스타일 제거 */
+.table1, .table2 {
+  border: none;
+}
+
+/* table1과 table2의 셀 간격 및 여백 제거 */
+.table1 td, .table2 td {
+  padding: 0;
+}
+
+/* table1의 테이블 스타일 */
+.table1 {
+  width: 395px;
+  text-align: center;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+/* table2의 테이블 스타일 */
+.table2 {
+  width: 395px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table1-wrapper {
+  border-top: 1px solid #444444;
+  width: 100%;
+}
+
+.table2-wrapper {
+  max-height: 395px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+/* 스크롤바 너비 조정 */
+.table2-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* 스크롤바 색상 */
+.table2-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
+/* table1과 table2의 테이블 헤더 스타일 */
+.table1 td {
+  color: #ffffff;
+  height: 30px;
+}
+
+/* table1과 table2의 테이블 행 스타일 */
+.table2 tr {
+  height: 30px;
+  overflow-y: auto;
+}
+
+/* 라운드열 너비 조정 */
+.table1 td:nth-child(1),
+.table2 td:nth-child(1) {
+  width: 30%; /* 라운드열의 너비를 조정해주세요 */
+}
+
+/* 기간열 너비 조정 */
+.table1 td:nth-child(2),
+.table2 td:nth-child(2) {
+  width: 70%; 
+}
+
+
+
+#infoTable tr, #infoTable td {
+  width : 70%;
+  text-align: center;
+  height : 40px;
+}
+
+#infoTable td:nth-child(1) {
+width: 25px;
+}
+
+
+#infoTable td:nth-child(2) {
+width: 100px;
+}
+
+#infoTable td:nth-child(3) {
+width: 70px;
+}
+
+#infoTable td:nth-child(4) {
+width: 25px;
+}
+
+#infoTable td:nth-child(5) {
+width: 70px;
+}
+
+#infoTable td:nth-child(6) {
+width: 70px;
+}
+
+#backBtn {
+  background-color: #2BFFCC;
+  border: 1px solid #2BFFCC;
+  border-radius: 4px;
+  width: 80px;
+  height: 30px;
+  color: black;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+#backBtn:hover {
+  background-color: #19a585;
+  border: 1px solid #19a585;
+}
+
+#voteBtn {
+  background-color: #2BFFCC;
+  border: 1px solid #2BFFCC;
+  border-radius: 4px;
+  width: 70px;
+  height: 30px;
+  color: black;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+  margin-left: 1000px;
+}
+
+#voteBtn:hover {
+  background-color: #19a585;
+  border: 1px solid #19a585;
+  margin-left: 1000px;
+}
+
+
+
+.voteResultTable {
+  width: 40%;
+}
+
+.voteCountTable td, .voteCountTAble tr {
+  width : 40%;
+  text-align: center;
+  height: 40px;
+}
+
+.voteCountTable td:nth-child(1) {
+width: 17.5%; 
+}
+
+.voteCountTable td:nth-child(2) {
+width: 10%; 
+}
+
+.voteCountTable td:nth-child(3) {
+width: 17.5%; 
+}
+
+.voteCountTable td:nth-child(4) {
+width: 15%; 
+}
+
+.voteCountTable td:nth-child(5) {
+width: 40%; 
+}
+
+.progress-bar-custom {
+  width: 70%;
+  height: 25px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  margin-left: 15%;
+  margin-right: 15%;
+  text-align: center;
+}
+
+#homeBtn {
+  background-color: #2BFFCC;
+  border: 1px solid #2BFFCC;
+  border-radius: 4px;
+  width: 80px;
+  height: 30px;
+  color: black;
+  font-size: 15px;
+  font-weight: 550;
+  cursor: pointer;
+}
+
+#homeBtn:hover {
+  background-color: #19a585;
+  border: 1px solid #19a585;
+}
+
