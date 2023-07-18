@@ -1,0 +1,291 @@
+.favicon-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.favicon-wrapper img {
+  margin-left: 140px;
+}
+
+
+
+#infoTable tr, #infoTable td {
+    /*
+    border: 1px solid red !important;
+    background-color: yellow !important;
+    border-collapse: collapse !important;  border 이중선/단일선
+    */
+    /* width : 200px; */
+    width : 100px; /* 추가함 */
+    text-align: center;
+}
+
+
+#infoTable td:nth-child(1) {
+  width: 25px;
+}
+
+#infoTable td:nth-child(2) {
+  width: 100px;
+}
+
+#infoTable td:nth-child(3) {
+  width: 150px;
+}
+
+#infoTable td:nth-child(4) {
+  width: 100px;
+}
+
+#infoTable td:nth-child(5) {
+  width: 5px;
+}
+
+#infoTable td:nth-child(6) {
+  width: 100px;
+}
+
+#infoTable td:nth-child(7) {
+  width: 100px;
+}
+
+#voteCountTable tr, #voteCountTable td {
+    /*
+    border: 1px solid red !important;
+    background-color: yellow !important;
+    border-collapse: collapse !important;  border 이중선/단일선
+    */
+    width : 100px;
+    text-align: center;
+}
+
+body {
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #191919;
+    color: #ffffff;
+}
+
+#titleWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 77%;
+}
+
+.content-container__content {
+  display: none;
+}
+
+.content-container__content.target {
+  display: block;
+}
+
+.tab-container__item_active {
+  border-bottom: 2px solid #2BFFCC;
+  color: #2BFFCC;
+  cursor: pointer;
+  width: 150px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  /* border: 1px solid #369fff; */
+}
+
+.tab-container__item {
+  cursor: pointer;
+  width: 150px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  /* border: 1px solid black; */
+}
+
+.tab-wrapper {
+    display: flex; 
+    list-style-type: none; 
+    margin-bottom: 20px; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+table {
+    width: 100%;
+    border-top: 1px solid #444444;
+    border-collapse: collapse;
+  }
+  th, td {
+    border-bottom: 1px solid #444444;
+    padding: 8px;
+  }
+
+  #initialScreen {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+
+  .custom-calendar {
+    width: 60%;
+    height: 500px; /* 원래는 600 */
+    margin-left: 25px;
+    color: #19a585;
+  }
+  
+
+.table-wrapper {
+    max-height: 425px;
+    margin-top: 56px;
+    overflow-y: auto; 
+    overflow-x: hidden;
+    width: 30%;
+} 
+
+
+#periodTable {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #444444;
+    text-align: center;
+    td:nth-child(1){width: 250px};
+    td:nth-child(2){width: 500px};
+  }
+
+  #periodTable th {
+    position: sticky;
+    top: 0;
+    background-color: #f2f2f2;
+    z-index: 1;
+  }
+
+  #periodTable td {
+    position: sticky;
+    top: 0;
+    z-index: 0;
+  }
+  
+
+  #RoundSb {
+    color: black;
+    margin-left: 8px;
+    /*margin-top : 150px;*/
+  }
+
+  #searchWrapper {
+    margin-top : 100px;
+    margin-bottom : -35px;
+    margin-top : 80px;
+  }
+
+
+  #searchBtn {
+    background-color: #2BFFCC;
+    border: 1px solid #2BFFCC;
+    border-radius: 4px;
+    width: 50px;
+    height: 30px;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left : 12px;
+    margin-right : -23px;
+  }
+
+  #searchBtn:hover {
+    background-color: #19a585;
+    border: 1px solid #19a585;
+    margin-left : 12px;
+    margin-right : -23px;
+  }
+
+  #voteBtn {
+    background-color: #2BFFCC;
+    border: 1px solid #2BFFCC;
+    border-radius: 4px;
+    width: 70px;
+    height: 30px;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 1000px;
+  }
+
+  #voteBtn:hover {
+    background-color: #19a585;
+    border: 1px solid #19a585;
+    margin-left: 1000px
+  }
+
+  #backBtn {
+    background-color: #2BFFCC;
+    border: 1px solid #2BFFCC;
+    border-radius: 4px;
+    width: 80px;
+    height: 30px;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  #backBtn:hover {
+    background-color: #19a585;
+    border: 1px solid #19a585;
+  }
+
+  #homeBtn {
+    background-color: #2BFFCC;
+    border: 1px solid #2BFFCC;
+    border-radius: 4px;
+    width: 80px;
+    height: 30px;
+    color: black;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  #homeBtn:hover {
+    background-color: #19a585;
+    border: 1px solid #19a585;
+  }
+
+
+/* FullCalendar의 요일 헤더 텍스트 색상 변경 */
+.fc-day-header {
+  color: #ffffff;
+}
+
+/* FullCalendar의 날짜 텍스트 색상 변경 */
+.fc-daygrid-day {
+  color: #19a585 !important;
+}
+
+.fc-col-header-cell-cushion {
+    color: #19a585 !important;
+}
+
+.fc-daygrid-day-number {
+    color: #19a585 !important;
+}
+
+.progress-bar-custom {
+  width: 120px;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 3px;
+  margin-bottom: 5px;
+  /* margin-right: 5px; */
+}
