@@ -8,19 +8,17 @@
   margin-left: 140px;
 }
 
-
-
-#infoTable tr, #infoTable td {
-    /*
-    border: 1px solid red !important;
-    background-color: yellow !important;
-    border-collapse: collapse !important;  border 이중선/단일선
-    */
-    /* width : 200px; */
-    width : 100px; /* 추가함 */
+/*
+#periodTable tr, #periodTable td {
+    width : 400px;
     text-align: center;
 }
+*/
 
+#infoTable tr, #infoTable td {
+    width : 100px;
+    text-align: center;
+}
 
 #infoTable td:nth-child(1) {
   width: 25px;
@@ -135,15 +133,17 @@ table {
   }
 
 
+
+
   .custom-calendar {
     width: 60%;
-    height: 500px; /* 원래는 600 */
+    height: 500px;
     margin-left: 25px;
-    color: #19a585;
+    color: #2BFFCC;
   }
-  
 
-.table-wrapper {
+
+  .table-wrapper {
     max-height: 425px;
     margin-top: 56px;
     overflow-y: auto; 
@@ -151,41 +151,21 @@ table {
     width: 30%;
 } 
 
-
-#periodTable {
+  #periodTable {
     width: 100%;
-    border-collapse: collapse;
     border-top: 1px solid #444444;
+    border-collapse: collapse;
     text-align: center;
-    td:nth-child(1){width: 250px};
+    td:nth-child(1){width: 150px};
     td:nth-child(2){width: 500px};
   }
 
-  #periodTable th {
-    position: sticky;
-    top: 0;
-    background-color: #f2f2f2;
-    z-index: 1;
-  }
-
-  #periodTable td {
-    position: sticky;
-    top: 0;
-    z-index: 0;
-  }
   
-
   #RoundSb {
     color: black;
     margin-left: 8px;
-    /*margin-top : 150px;*/
   }
 
-  #searchWrapper {
-    margin-top : 100px;
-    margin-bottom : -35px;
-    margin-top : 80px;
-  }
 
 
   #searchBtn {
@@ -198,15 +178,22 @@ table {
     font-size: 15px;
     font-weight: 500;
     cursor: pointer;
-    margin-left : 12px;
+    margin-left: 12px;
     margin-right : -23px;
   }
 
+
+
+  
   #searchBtn:hover {
     background-color: #19a585;
     border: 1px solid #19a585;
     margin-left : 12px;
     margin-right : -23px;
+  }
+
+  #searchWrapper{
+    margin-top: 50px;
   }
 
   #voteBtn {
@@ -263,29 +250,74 @@ table {
   }
 
 
-/* FullCalendar의 요일 헤더 텍스트 색상 변경 */
-.fc-day-header {
-  color: #ffffff;
+  /* FullCalendar의 요일 헤더 텍스트 색상 변경 */
+  .fc-day-header {
+    color: #ffffff;
+  }
+
+  /* FullCalendar의 날짜 텍스트 색상 변경 */
+  .fc-daygrid-day {
+    color: #ffffff !important;
+  }
+
+  .fc-col-header-cell-cushion {
+      color: #ffffff !important;
+  }
+
+  .fc-daygrid-day-number {
+      color: #ffffff !important;
+  }
+
+
+/* #19a585 원본색, 오늘 날짜*/
+.fc {
+  --fc-today-bg-color: #ece275b2;
 }
 
-/* FullCalendar의 날짜 텍스트 색상 변경 */
-.fc-daygrid-day {
-  color: #19a585 !important;
+
+.fc {
+  --fc-button-bg-color: #ffffff;
+  --fc-button-text-color: #000000;
+  --fc-button-border-color: #ffffff;
+  --fc-button-hover-bg-color: #888888;
+  --fc-button-hover-border-color: #888888;
+/*
+  --fc-small-font-size: .85em;
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: hsla(0,0%,82%,.3);
+  --fc-neutral-text-color: grey;
+  --fc-border-color: #ddd;
+  --fc-button-text-color: #fff;
+  --fc-button-bg-color: #2c3e50;
+  --fc-button-border-color: #2c3e50;
+  --fc-button-hover-bg-color: #1e2b37;
+  --fc-button-hover-border-color: #1a252f;
+  --fc-button-active-bg-color: #1a252f;
+  --fc-button-active-border-color: #151e27;
+  --fc-event-bg-color: #3788d8;
+  --fc-event-border-color: #3788d8;
+  --fc-event-text-color: #fff;
+  --fc-event-selected-overlay-color: rgba(0,0,0,.25);
+  --fc-more-link-bg-color: #d0d0d0;
+  --fc-more-link-text-color: inherit;
+  --fc-event-resizer-thickness: 8px;
+  --fc-event-resizer-dot-total-width: 8px;
+  --fc-event-resizer-dot-border-width: 1px;
+  --fc-non-business-color: hsla(0,0%,84%,.3);
+  --fc-bg-event-color: #8fdf82;
+  --fc-bg-event-opacity: 0.3;
+  --fc-highlight-color: rgba(188,232,241,.3);
+  --fc-today-bg-color: rgba(255,220,40,.15);
+  --fc-now-indicator-color: red;
+  */
 }
 
-.fc-col-header-cell-cushion {
-    color: #19a585 !important;
-}
 
-.fc-daygrid-day-number {
-    color: #19a585 !important;
-}
-
-.progress-bar-custom {
-  width: 120px;
-  height: 20px;
-  background-color: #f0f0f0;
-  border-radius: 3px;
-  margin-bottom: 5px;
+  .progress-bar-custom {
+    width: 120px;
+    height: 20px;
+    background-color: #f0f0f0;
+    border-radius: 3px;
+    margin-bottom: 5px;
   /* margin-right: 5px; */
-}
+  }
