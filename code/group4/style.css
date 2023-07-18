@@ -113,7 +113,9 @@ body {
     margin-bottom: 20px; 
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
+    margin-left: -155px;
+    margin-top: -40px;
 }
 
 table {
@@ -136,7 +138,7 @@ table {
 
 
   .custom-calendar {
-    width: 60%;
+    width: 55%;
     height: 500px;
     margin-left: 25px;
     color: #2BFFCC;
@@ -144,7 +146,7 @@ table {
 
 
   .table-wrapper {
-    max-height: 425px;
+    max-height: 450px;
     margin-top: 56px;
     overflow-y: auto; 
     overflow-x: hidden;
@@ -271,7 +273,7 @@ table {
 
 /* #19a585 원본색, 오늘 날짜*/
 .fc {
-  --fc-today-bg-color: #ece275b2;
+  --fc-today-bg-color: #777777;
 }
 
 
@@ -281,35 +283,8 @@ table {
   --fc-button-border-color: #ffffff;
   --fc-button-hover-bg-color: #888888;
   --fc-button-hover-border-color: #888888;
-/*
-  --fc-small-font-size: .85em;
-  --fc-page-bg-color: #fff;
-  --fc-neutral-bg-color: hsla(0,0%,82%,.3);
-  --fc-neutral-text-color: grey;
-  --fc-border-color: #ddd;
-  --fc-button-text-color: #fff;
-  --fc-button-bg-color: #2c3e50;
-  --fc-button-border-color: #2c3e50;
-  --fc-button-hover-bg-color: #1e2b37;
-  --fc-button-hover-border-color: #1a252f;
-  --fc-button-active-bg-color: #1a252f;
-  --fc-button-active-border-color: #151e27;
-  --fc-event-bg-color: #3788d8;
-  --fc-event-border-color: #3788d8;
-  --fc-event-text-color: #fff;
-  --fc-event-selected-overlay-color: rgba(0,0,0,.25);
-  --fc-more-link-bg-color: #d0d0d0;
-  --fc-more-link-text-color: inherit;
-  --fc-event-resizer-thickness: 8px;
-  --fc-event-resizer-dot-total-width: 8px;
-  --fc-event-resizer-dot-border-width: 1px;
-  --fc-non-business-color: hsla(0,0%,84%,.3);
-  --fc-bg-event-color: #8fdf82;
-  --fc-bg-event-opacity: 0.3;
-  --fc-highlight-color: rgba(188,232,241,.3);
-  --fc-today-bg-color: rgba(255,220,40,.15);
-  --fc-now-indicator-color: red;
-  */
+  --fc-button-active-bg-color: #444444;
+  --fc-button-active-border-color: #444444;
 }
 
 
