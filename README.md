@@ -58,7 +58,7 @@
 - 2조: https://kusf-data-hqlej.run.goorm.site/
 - 3조: https://kusf-data-pwmnp.run.goorm.site/seegether.html, https://kusf-sportsdata-tyrch.run.goorm.site/kusf1.html
 - 4조: https://kusf-test-vbuca.run.goorm.site/Vote_For_Your_Match.html
-- 5조: https://kusf-data-xnnng.run-ap-south1.goorm.site/kusf.html
+- 5조: https://kusf-data-mgtvr.run.goorm.site/example_20230718.html?
 
 ### 발표
 - 발표자료 제출기한: 2023-07-21 AM 11:59:59
