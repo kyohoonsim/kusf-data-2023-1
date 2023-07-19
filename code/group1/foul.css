@@ -1,0 +1,105 @@
+.FoulImage{
+    position: relative;
+    left: 750px;
+}
+.foulDB{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 77px;
+
+    color: #000000;
+}
+.foulMaker{
+    position: absolute;
+    top: 90px;
+    left: 30px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+
+    z-index: 100;
+    background-color: white;
+}
+.helpMessage1{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.chooseTeamImage{
+    position: absolute;
+    top: 150px;
+}
+.foulMaker2{
+    position: absolute;
+    left: 30px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    top: 300px;
+
+    z-index: 100;
+    background-color: white;
+}
+.helpMessage2{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.optionAll{
+    position: absolute;
+    top: 350px;
+}
+.teamAndBatter{
+    position: absolute;
+    top: 140px;
+}
+hr{
+    position: absolute;
+    top: 250px;
+}
+#submitBtn1{
+    position: absolute;
+    top: 70px;
+    left: 100px;
+}
+#submitBtn2{
+    position: absolute;
+    top: 470px;
+    left: 110px;
+}
+/*카운트 체크할 때 바뀌는 구글에서 긁어온 코드*/
+
+
+
+
+
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+.rate { display: inline-block;border: 0;margin-right: 15px;}
+.rate > input {display: none;}
+.rate > label {float: right;color: #ddd}
+.rate > label:before {display: inline-block;font-size: 1rem;padding: .3rem .2rem;margin: 0;cursor: pointer;font-family: FontAwesome;content: "\f005 ";}
+.rate .half:before {content: "\f089 "; position: absolute;padding-right: 0;}
+.rate input:checked ~ label, 
+.rate label:hover,.rate label:hover ~ label { color: #f73c32 !important;  } 
+.rate input:checked + .rate label:hover,
+.rate input input:checked ~ label:hover,
+.rate input:checked ~ .rate label:hover ~ label,  
+.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  } 
