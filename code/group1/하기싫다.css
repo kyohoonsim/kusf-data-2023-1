@@ -1,0 +1,72 @@
+.FoulImage{
+    position: relative;
+    left: 750px;
+}
+.foulDB{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 77px;
+
+    color: #000000;
+}
+.foulMaker{
+    position: absolute;
+    top: 90px;
+    left: 30px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+}
+.helpMessage1{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.chooseTeamImage{
+    position: absolute;
+    top: 150px;
+}
+.foulMaker2{
+    position: absolute;
+    top: 370px;
+    left: 30px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+}
+.helpMessage2{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.optionAll{
+    position: absolute;
+    top: 620px;
+}
+.teamAndBatter{
+    position: absolute;
+    top: 570px;
+}
+
+
+
