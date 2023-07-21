@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FOUL MAP</title>
+    <link rel="stylesheet" href="foul.css">
+    <script
+    src="https://code.jquery.com/jquery-3.7.0.min.js"
+    integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+    crossorigin="anonymous"></script>
+    <script src="foul.js"></script>
+</head>
+
+<body>
+    <div class='v-line'></div> <!--선택구역과 이미지를 구분하는 세로줄-->
+    <div class="canvas-container"> <!--추가해야될 div태그와 canvas속성-->
+        <!-- 이미지를 배경으로 갖는 div -->
+        <img src="FoulmapIMG.png" alt="user_map" class="user-image">
+        <canvas id="myCanvas"></canvas>
+    </div>
+    <span class="foulDB">FOUL MAP</span>
+    <br>
+    <span class="foulMaker" style="color: rgb(169, 27, 27);">FOUL MAKER
+        <button class="helpBtn">?</button>
+        <span class="helpMessage1" style="color: black;">FOUL MAKER는 파울을 만들어내는 공격 팀과 타자에 대한 조건을 의미합니다. <br>팀만 선택할 시 해당 팀 타자 전체가 만들어낸 파울 통계를 보여줍니다.</span>
+    </span>
+    <div class="teamAndBatter"> <!--FOUL MAKER를 선택할 수 있는 부분-->
+        <div class="form-group col-sm-5">
+            <label for="selectHomeTeam">타자팀 선택:</label>
+            <select class="form-control" name="selectHomeTeam" id="selectHomeTeam" onchange="HomeTeam(this)">
+                <option>원하는 타자의 팀을 선택해 주세요</option>
+                <option value="LG">LG트윈스</option>
+                <option value="SSG">SSG랜더스</option>
+                <option value="두산">두산베어스</option>
+                <option value="NC">NC다이노스</option>
+                <option value="롯데">롯데자이언츠</option>
+                <option value="KIA">KIA타이거즈</option>
+                <option value="KT">KT위즈</option>
+                <option value="한화">한화이글스</option>
+                <option value="키움">키움히어로즈</option>
+                <option value="삼성">삼성라이온스</option>
+            </select>
+        </div>
+        <br>
+        <div class="form-group col-sm-4">
+            <label for="selectBatter">선수 선택:</label>
+            <select class="form-control" name="selectBatter" id="selectBatter">
+                <option value="타자선택">====</option>
+            </select>
+        </div>
+    </div>
+    
+<hr id="batterLine" style="width: 380px; height: 4px; border: 1; background-color: rgb(92, 96, 93);"> <!--FOUL MAKER와 FOUL INDUCER를 구분하는 가로줄-->
+<hr id="ballLine" style="width: 380px; height: 4px; border: 1; background-color: rgb(92, 96, 93);">
+
+        <span class="foulMaker2" style="color: blue;">FOUL&nbsp;INDUCER
+            <button class="helpBtn2">?</button>
+            <span class="helpMessage2" style="color: black;">FOUL INDUCER는 파울을 유도해내는 수비 팀과 투수에 대한 조건을 의미합니다. <br>팀만 선택할 시 해당 팀 투수 전체가 유도해낸 파울통계를 보여줍니다.</span>
+        </span>
+    </div>
+
+
+
+
+    <div class="optionAll">
+        <div>
+            <div class="teamAndPitcher">
+                <div class="form-Group col-sm-5">
+                    <label for="selectAwayTeam">상대팀 선택:</label>
+                    <select class="form-Control" name="selectAwayTeam" id="selectAwayTeam" onchange="selectAwayTeam(this)">
+                        <option>상대팀을 선택해주세요.</option>
+                        <option value="LG">LG트윈스</option>
+                        <option value="SSG">SSG랜더스</option>
+                        <option value="두산">두산베어스</option>
+                        <option value="NC">NC다이노스</option>
+                        <option value="롯데">롯데자이언츠</option>
+                        <option value="KIA">KIA타이거즈</option>
+                        <option value="KT">KT위즈</option>
+                        <option value="한화">한화이글스</option>
+                        <option value="키움">키움히어로즈</option>
+                        <option value="삼성">삼성라이온스</option>
+                    </select>
+                </div>
+                <br>
+                <div class="form-Group col-sm-4">
+                    <label for="selectPitcher">선수 선택:</label>
+                    <select class="form-control" name="selectPitcher" id="selectPitcher">
+                        <option value="투수선택">====</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <!--여기까지 옵션중에서 투수를 고르는 부분-->
+
+    <div class="BallCount-option">
+        <span class="foulMaker3" style="color: rgb(7, 162, 35);">BALL COUNT</span>
+        
+        <div class="on-offSwitch">
+            <input type="checkbox" id="toggle" hidden> 
+            <label for="toggle" class="toggleSwitch">
+                <span class="toggleButton"></span>
+            </label>
+        </div>
+        <div class="count-options"style="display: none; position: absolute; top: 180px;">
+            <span>OUT 카운트:</span>
+            <label><input class="out_count" type="radio" name="out" value="0">0</label>
+            <label><input class="out_count" type="radio" name="out" value="1">1</label>
+            <label><input class="out_count" type="radio" name="out" value="2">2</label>
+            <br>
+            <br>
+            <span>STRIKE 카운트:</span>
+            <label><input class="strike_count" type="radio" name="strike" value="0">0</label>
+            <label><input class="strike_count" type="radio" name="strike" value="1">1</label>
+            <label><input class="strike_count" type="radio" name="strike" value="2">2</label>
+            <br>
+            <br>
+            <span>BALL 카운트:</span>
+            <label><input class="ball_count" type="radio" name="ball" value="0">0</label>
+            <label><input class="ball_count" type="radio" name="ball" value="1">1</label>
+            <label><input class="ball_count" type="radio" name="ball" value="2">2</label>
+            <label><input class="ball_count" type="radio" name="ball" value="3">3</label>
+        </div>
+        <input id="searchBtn" type="button" value="조회"/>
+    </div>
+</body>
+</html>
