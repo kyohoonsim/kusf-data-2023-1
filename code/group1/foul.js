@@ -1,97 +1,462 @@
-$(function(){
-    $('.helpBtn').on('mouseover', function(){
-        $('.helpMessage1').css('display','block');
-    });
+var isEventHandlersBound = false;
 
-    $('.helpBtn').on('mouseout', function(){
-        $('.helpMessage1').css('display','none');
-    });
+$(document).ready(function(){
+
+    if (!isEventHandlersBound) {
+        이벤트핸들러바인딩();
+        isEventHandlersBound = true;
+    }
 });
 
-$(function(){
-    $('.helpBtn2').on('mouseover', function(){
-        $('.helpMessage2').css('display','block');
+function 이벤트핸들러바인딩() {
+    $(function(){
+        $('.helpBtn').on('mouseover', function(){
+            $('.helpMessage1').css('display','block');
+        });
+    
+        $('.helpBtn').on('mouseout', function(){
+            $('.helpMessage1').css('display','none');
+        });
     });
+    
+    $(function(){
+        $('.helpBtn2').on('mouseover', function(){
+            $('.helpMessage2').css('display','block');
+        });
+    
+        $('.helpBtn2').on('mouseout', function(){
+            $('.helpMessage2').css('display','none');
+        });
+    });
+    
+    $(document).on("click", "#searchBtn", function() {
+    
+        $("#foulTable").empty();
+        var attack_team = $("#selectHomeTeam").val();
+        var batter = $("#selectBatter").val();
+        var defense_team = $("#selectAwayTeam").val();
+        var pitcher = $("#selectPitcher").val();
+    
+    
+        var queryParameter = "?";
+    
+        if (attack_team != "원하는 타자의 팀을 선택해 주세요") {
+            queryParameter += "team=" + attack_team + "&"
+    
+            if (batter != "타자선택") {
+                queryParameter += "batter=" + batter + "&"
+            }
+        }  
+    
+        if (defense_team != "상대팀을 선택해주세요.") {
+            queryParameter += "opposing_team=" + defense_team + "&"
+    
+            if (pitcher != "투수선택") {
+                queryParameter += "pitcher=" + pitcher + "&"
+            }
+        }
+    
+        //ajax get 요청 -> url : api + query parameter  
+        queryParameter = queryParameter.slice(0, queryParameter.length - 1)
+    
+        $.ajax ({
+            url	: "https://kusf-api-1-chungsu.run.goorm.site/fouls"+queryParameter,   // 요청이 전송될 URL 주소
+            type : "GET", // http 요청 방식 (default: ‘GET’)               
+            success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+                var list = data.foul_percentage_data;
+    
+                for(var i=0; i<list.length; i++) {
+                    drawTextOnPolygon(list[i])                  
+                }
+            },
+            error : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+                console.log(xhr);                      
+            },
+        });
+    });
+}
 
-    $('.helpBtn2').on('mouseout', function(){
-        $('.helpMessage2').css('display','none');
-    });
-});
-//foulmaker의 타자를 선택할 수 있는 자바스크립트문
-var lg트윈스 = ["====","홍창기", "오지환", "문보경", "문성주", "양의지","임찬규","손주영","김민성","서건창","안익훈","김현수","박해민","이천웅"];
-var SSG랜더스 = ["====","최정", "최지훈", "안상현", "길레르모 에레디아"];
-var 두산베어스 = ["====","김재환","박지훈","허경민","박치국","홍건희","이영하","김재호","정수빈","양의지","강승호","김대한","도수행","양찬열","신성현"];
-var NC다이노스 = ["====","박석민","도태훈","박민우","서호철"];
-var 롯데자이언츠 = ["====","전준우","안치홍","최종은","김민수","김원중"];
-var KIA타이거즈 = ["====","황대인","김도영","오정환","김선빈"];
-var KT위즈 = ["====","김상수","박병호","문상준","황재균","앤서니 알포드","양의지"];
-var 한화이글스 =["====","정은원","노시환","하주석","오선진","노시환","채은성"];
-var 키움히어로즈 = ["====","이정후","김혜성","김준완"];
-var 삼성라이온스 = ["====","구자욱","오재일","김재상","김동진"];
-var target = document.getElementById("selectBatter");
+function drawTextOnPolygon(section) {
+    var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    var section_name = section[0];
+    var section_value = section[1];
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // getPolygonCoordinates 함수에서 리턴되는 좌표 값들을 캔버스 크기에 맞게 조정
+    var coords = getAdjustedPolygonCoordinates(getPolygonCoordinates(section_name), canvas.width, canvas.height);
+
+    ctx.beginPath();
+    ctx.moveTo(coords[0][0], coords[0][1]);
+    for (var i = 1; i < coords.length; i++) {
+        ctx.lineTo(coords[i][0], coords[i][1]);
+    }
+    ctx.closePath();
+
+    if (section_value <= 10){
+        console.log(section_value)
+        ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
+        ctx.strokeStyle = "green";
+    }
+    else if (section_value > 10 & section <= 30){
+        ctx.fillStyle = "rgba(127, 128, 0, 0.5)";
+        ctx.strokeStyle = "yellow";
+    }
+    else {
+        ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+        ctx.strokeStyle = "red";
+    }
+    ctx.fill();
+    ctx.lineWidth = 1; // 폰트사이즈
+    ctx.stroke();
+
+    // 텍스트 표시
+    var centerCoords = getPolygonCenter(coords);
+    ctx.font = "12px italic";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(section_value, centerCoords.x, centerCoords.y);
+}
+function getAdjustedPolygonCoordinates(coords, canvasWidth, canvasHeight) {
+    // 이미지의 원본 크기 (700px x 656px)와 캔버스의 크기를 비교하여 좌표 값을 조정
+    var originalWidth = 700;
+    var originalHeight = 656;
+
+    var adjustedCoords = [];
+    for (var i = 0; i < coords.length; i++) {
+        var adjustedX = (coords[i][0] / originalWidth) * canvasWidth;
+        var adjustedY = (coords[i][1] / originalHeight) * canvasHeight;
+        adjustedCoords.push([adjustedX, adjustedY]);
+    }
+
+    return adjustedCoords;
+}
+
+function getPolygonCenter(coords) {
+    var centerX = coords.reduce((sum, coord) => sum + coord[0], 0) / coords.length;
+    var centerY = coords.reduce((sum, coord) => sum + coord[1], 0) / coords.length;
+    return { x: centerX, y: centerY };
+}
+
+function getPolygonCoordinates(text) {
+    if (text === "A") {
+        return [
+            [568, 248],
+            [542, 267],
+            [500, 338],
+            [544, 358],
+            [570, 307]
+        ];
+    } else if (text === "B") {
+        return [
+            [500, 341],
+            [492, 352],
+            [486, 376],
+            [474, 400],
+            [502, 420],
+            [524, 390],
+            [542, 360]
+        ];
+    } else if (text === "C") {
+        return [
+            [473, 402],
+            [443, 440],
+            [400, 477],
+            [408, 500],
+            [442, 482],
+            [474, 453],
+            [501, 422]
+        ];
+    } else if (text === "D") {
+        return [
+            [320, 477],
+            [314, 499],
+            [282, 483],
+            [219, 418],
+            [246, 398],
+            [278, 439]
+        ];
+    } else if (text === "E") {
+        return [
+            [244, 396],
+            [216, 413],
+            [178, 356],
+            [217, 332],
+            [232, 353],
+            [233, 368]
+        ];
+    } else if (text === "F") {
+        return [
+            [215, 329],
+            [176, 351],
+            [152, 307],
+            [153, 250],
+            [181, 270]
+        ];
+    } else if (text === "G") {
+        return [
+            [572, 252],
+            [603, 245],
+            [607, 291],
+            [590, 353],
+            [558, 341],
+            [571, 314],
+            [574, 281]
+        ];
+    } else if (text === "H") {
+        return [
+            [557, 345],
+            [590, 356],
+            [570, 399],
+            [539, 438],
+            [510, 414]
+        ];
+    } else if (text === "I") {
+        return [
+            [509, 418],
+            [537, 443],
+            [481, 487],
+            [414, 515],
+            [410, 504],
+            [464, 468],
+            [508, 416]
+        ];
+    } else if (text === "J") {
+        return [
+            [312, 503],
+            [308, 515],
+            [238, 488],
+            [182, 440],
+            [212, 416],
+            [260, 470]
+        ];
+    } else if (text === "K") {
+        return [
+            [210, 413],
+            [179, 435],
+            [162, 418],
+            [142, 384],
+            [132, 356],
+            [165, 343],
+            [209, 412]
+        ];
+    } else if (text === "L") {
+        return [
+            [163, 340],
+            [132, 352],
+            [120, 310],
+            [119, 246],
+            [152, 252],
+            [150, 304]
+        ];
+    } else if (text === "N") {
+        return [
+            [608, 243],
+            [621, 240],
+            [631, 281],
+            [632, 350],
+            [616, 412],
+            [582, 395],
+            [600, 340],
+            [608, 293]
+        ];
+    } else if (text === "M") {
+        return [
+            [613, 416],
+            [594, 458],
+            [555, 512],
+            [504, 550],
+            [478, 498],
+            [516, 471],
+            [548, 437],
+            [576, 399]
+        ];
+    } else if (text === "O") {
+        return [
+            [500, 551],
+            [442, 581],
+            [341, 592],
+            [268, 576],
+            [220, 552],
+            [243, 496],
+            [304, 517],
+            [363, 525],
+            [435, 511],
+            [475, 495]
+        ];
+    } else if (text === "P") {
+        return [
+            [217, 549],
+            [173, 517],
+            [127, 460],
+            [106, 416],
+            [144, 399],
+            [172, 438],
+            [207, 471],
+            [241, 492]
+        ];
+    } else if (text === "Q") {
+        return [
+            [105, 411],
+            [92, 372],
+            [89, 313],
+            [100, 238],
+            [117, 242],
+            [114, 291],
+            [124, 345],
+            [143, 394]
+        ];
+    } else if (text === "R") {
+        return [
+            [614, 222],
+            [595, 175],
+            [559, 131],
+            [530, 154],
+            [550, 187],
+            [568, 237]
+        ];
+    } else if (text === "S") {
+        return [
+            [556, 128],
+            [527, 151],
+            [503, 127],
+            [471, 104],
+            [449, 91],
+            [462, 64],
+            [508, 89]
+        ];
+    } else if (text === "T") {
+        return [
+            [458, 64],
+            [445, 88],
+            [409, 77],
+            [378, 71],
+            [378, 45],
+            [415, 49]
+        ];
+    } else if (text === "U") {
+        return [
+            [344, 44],
+            [344, 71],
+            [310, 78],
+            [273, 92],
+            [263, 63],
+            [300, 50]
+        ];
+    } else if (text === "V") {
+        return [
+            [270, 94],
+            [244, 107],
+            [214, 133],
+            [195, 154],
+            [165, 129],
+            [193, 103],
+            [224, 81],
+            [259, 64]
+        ];
+    } else if (text === "W") {
+        return [
+            [192, 158],
+            [176, 183],
+            [162, 211],
+            [153, 237],
+            [106, 223],
+            [118, 191],
+            [138, 159],
+            [163, 131]
+        ];
+    } else if (text === "X") {
+        return [
+            [185, 271],
+            [205, 281],
+            [237, 336],
+            [231, 348]
+        ];
+    } else if (text === "Y") {
+        return [
+            [538, 269],
+            [517, 280],
+            [484, 335],
+            [489, 350]
+        ];
+    } else if (text === "Z") {
+        return [
+            [322,479],
+            [314, 515],
+            [339, 522],
+            [388, 522],
+            [409, 515],
+            [398, 477],
+            [374, 485],
+            [346, 485]
+        ];
+    }
+}
+
+
 
 function HomeTeam(e) {
     var selectedTeam = e.value;
     var target = document.getElementById("selectBatter");
-    var players = [];
+    var queryParameter = "?team=" + selectedTeam;
 
-    if (selectedTeam === "LG") players = lg트윈스;
-    else if (selectedTeam === "SSG") players = SSG랜더스;
-    else if(selectedTeam === "두산") players = 두산베어스;
-    else if(selectedTeam === "NC") players = NC다이노스;
-    else if(selectedTeam === "롯데") players = 롯데자이언츠;
-    else if(selectedTeam === "KIA") players = KIA타이거즈;
-    else if(selectedTeam === "KT") players = KT위즈;
-    else if(selectedTeam === "한화") players = 한화이글스;
-    else if(selectedTeam === "키움") players = 키움히어로즈;
-    else if(selectedTeam === "삼성") players = 삼성라이온스;
+    target.options.length = 1;
 
-    target.options.length = 0;
+    $.ajax ({
+        url	: "https://kusf-api-1-chungsu.run.goorm.site/batter"+queryParameter ,   // 요청이 전송될 URL 주소
+        type : "GET", // http 요청 방식 (default: ‘GET’)               
+        success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+            var list = data.batter;
 
-    for (var i = 0; i < players.length; i++) {
-        var opt = document.createElement("option");
-        opt.value = players[i];
-        opt.innerHTML = players[i];
-        target.appendChild(opt);
-    }
+            for(var i = 0; i < list.length; i++) {
+                var opt = document.createElement("option");
+                opt.value = list[i];
+                opt.innerHTML = list[i];
+                target.appendChild(opt);
+            }
+        },
+        error : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+            console.log(xhr);                      
+        },
+    });
 }
-
-
-//foulINDUCER의 투수를 선택할 수 있는 자바스크립트문
-var lg = ["====","강효종", "고우석", "김동규", "김영준", "김윤식"];
-var SSG = ["====","강매성", "김주온", "김주한", "고효준", "노경은"];
-var 두산 = ["====","박치국","김지용","김강률","장원준","김동주"];
-var NC = ["====","심창민","김재균","전루건","김태현","최성영"];
-var 롯데 = ["====","구승민","김강현","김상수","김원중","나균안"];
-var KIA = ["====","강병우","강이준","고영창","곽도규","김건국"];
-var KT = ["====","고영표","김건웅","김민","김민수","김영현"];
-var 한화 =["====","문동주","이승관","윤대경","남지민","송윤준"];
-var 키움 = ["====","김건희","김동혁","김성진","김준형","노운현"];
-var 삼성 = ["====","오승환","우규민","김대우","뷰캐넌","이상민"];
-var target = document.getElementById("selectPitcher");
 
 function selectAwayTeam(e) {
     var selectedTeam = e.value;
     var target = document.getElementById("selectPitcher");
-    var players = [];
+    var queryParameter = "?opposing_team=" + selectedTeam;
 
-    if (selectedTeam === "LG") players = lg;
-    else if (selectedTeam === "SSG") players = SSG;
-    else if(selectedTeam === "두산") players = 두산;
-    else if(selectedTeam === "NC") players = NC;
-    else if(selectedTeam === "롯데") players = 롯데;
-    else if(selectedTeam === "KIA") players = KIA;
-    else if(selectedTeam === "KT") players = KT;
-    else if(selectedTeam === "한화") players = 한화;
-    else if(selectedTeam === "키움") players = 키움;
-    else if(selectedTeam === "삼성") players = 삼성;
+    target.options.length = 1;
 
-    target.options.length = 0;
+    $.ajax ({
+        url	: "https://kusf-api-1-chungsu.run.goorm.site/pitcher" + queryParameter ,   // 요청이 전송될 URL 주소
+        type : "GET", // http 요청 방식 (default: ‘GET’)               
+        success : function(data, status, xhr) {     // 정상적으로 응답 받았을 경우에는 success 콜백이 호출되게 됩니다.
+            var list = data.pitcher;
 
-    for (var i = 0; i < players.length; i++) {
-        var opt = document.createElement("option");
-        opt.value = players[i];
-        opt.innerHTML = players[i];
-        target.appendChild(opt);
-    }
+            for(var i = 0; i < list.length; i++) {
+                var opt = document.createElement("option");
+                opt.value = list[i];
+                opt.innerHTML = list[i];
+                target.appendChild(opt);
+            }
+        },
+        error : function(xhr, status, error) {    // 서버에서 error가 생겼을 때 호출됩니다.
+            console.log(xhr);                      
+        },
+    });
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+    var toggle = document.getElementById("toggle");
+    var countOptions = document.querySelector(".count-options");
+    
+    toggle.addEventListener("change", function() {
+        if (toggle.checked) {
+            countOptions.style.display = "block";
+        } else {
+            countOptions.style.display = "none";
+        }
+    });
+});
