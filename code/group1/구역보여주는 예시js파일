@@ -1,0 +1,280 @@
+$(document).ready(function () {
+    // 선택 버튼 클릭 시 이벤트 //여기에서 바꿀내용 -> foul파일에 id나 class값 이런식으로 보여줄게
+    $("#selectButton").on("click", function () { //selectButton -> submitBtn1로 
+        var selectedOption = $("#alphabetDropdown").val(); // 선택한 옵션 가져오기 //alphabetDropdown -> selectHomeTeam
+
+        if (selectedOption === "A") { //알파벳을 팀이름으로 바꿔주기
+            drawTextOnPolygon("A"); //여기 알파벳은 바꾸면 안됨 여기는 구역설정하는 곳임
+        } else if (selectedOption === "B") {
+            drawTextOnPolygon("B");
+        } else if (selectedOption === "C") {
+            drawTextOnPolygon("C");
+        } else if (selectedOption === "D") {
+            drawTextOnPolygon("D");
+        } else if (selectedOption === "E") {
+            drawTextOnPolygon("E");
+        } else if (selectedOption === "F") {
+            drawTextOnPolygon("F");
+        } else if (selectedOption === "G") {
+            drawTextOnPolygon("G");
+        } else if (selectedOption === "H") {
+            drawTextOnPolygon("H");
+        } else if (selectedOption === "I") {
+            drawTextOnPolygon("I");
+        } else if (selectedOption === "J") {
+            drawTextOnPolygon("J");
+        } else if (selectedOption === "K") {
+            drawTextOnPolygon("K");
+        } else if (selectedOption === "L") {
+            drawTextOnPolygon("L");
+        } else if (selectedOption === "N") {
+            drawTextOnPolygon("N");
+        } else if (selectedOption === "M") {
+            drawTextOnPolygon("M");
+        } else if (selectedOption === "O") {
+            drawTextOnPolygon("O");
+        } else if (selectedOption === "P") {
+            drawTextOnPolygon("P");
+        } else if (selectedOption === "Q") {
+            drawTextOnPolygon("Q");
+        } else if (selectedOption === "R") {
+            drawTextOnPolygon("R");
+        } else if (selectedOption === "S") {
+            drawTextOnPolygon("S");
+        } else if (selectedOption === "T") {
+            drawTextOnPolygon("T");
+        } else if (selectedOption === "U") {
+            drawTextOnPolygon("U");
+        } else if (selectedOption === "V") {
+            drawTextOnPolygon("V");
+        } else if (selectedOption === "W") {
+            drawTextOnPolygon("W");
+        }
+        // 다른 알파벳에 대한 이벤트 처리 추가
+    });
+});
+
+function drawTextOnPolygon(text) {
+    var canvas = document.getElementById("myCanvas"); //그림을 그릴 캔버스태그의 id값
+    var ctx = canvas.getContext("2d"); //2d로 보여주기 위해서
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스를 지워줍니다.
+
+    // 다각형 그리기
+    var coords = getPolygonCoordinates(text);
+    ctx.beginPath();
+    ctx.moveTo(coords[0][0], coords[0][1]);
+    for (var i = 1; i < coords.length; i++) {
+        ctx.lineTo(coords[i][0], coords[i][1]);
+    }
+    ctx.closePath();
+    ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+    ctx.fill();
+    ctx.lineWidth = 2; // 폰트사이즈
+    ctx.strokeStyle = "red"; // 영역을 채울 색깔
+    ctx.stroke();
+
+    // 텍스트 표시
+    var centerCoords = getPolygonCenter(coords);
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "black";
+    ctx.textAlign = "center";
+    ctx.fillText(text + "구역", centerCoords.x, centerCoords.y);
+}
+
+function getPolygonCoordinates(text) {
+    // 각 알파벳에 대한 다각형 꼭짓점 좌표값 반환하는 함수
+    // 각 알파벳에 맞는 좌표값을 설정해주세요.
+    // 여기는 좌표값이기 때문에 파일내용을 옮기면서 수정해야될 부분은 없음
+    if (text === "A") {
+        return [
+            [567, 267],
+            [541, 286],
+            [571, 324],
+            [501, 361],
+            [543, 381]
+        ];
+    } else if (text === "B") {
+        return [
+            [541, 381],
+            [499, 362],
+            [491, 377],
+            [485, 398 ],
+            [473, 424]
+        ];
+    } else if (text === "C") {
+        return [
+            [473, 428],
+            [501, 450],
+            [407, 533],
+            [401, 510 ]
+        ];
+    } else if (text === "D") {
+        return [
+            [318, 509],
+            [246, 428],
+            [218, 444],
+            [313, 533]
+        ];
+    } else if (text === "E") {
+        return [
+            [246, 423],
+            [215, 442],
+            [176, 380],
+            [217, 353],
+            [231, 377]
+        ];
+    } else if (text === "F") {
+        return [
+            [215, 351],
+            [175, 378],
+            [150, 326],
+            [152, 269],
+            [181, 286]
+        ];
+    } else if (text === "G") {
+        return [
+            [570, 268],
+            [605, 262],
+            [606, 321],
+            [573, 321],
+            [557, 364]
+        ];
+    } else if (text === "H") {
+        return [
+            [590, 380],
+            [558, 369],
+            [510, 443],
+            [541, 469]
+        ];
+    } else if (text === "I") {
+        return [
+            [538, 471],
+            [509, 444],
+            [474, 488],
+            [488, 516],
+            [400, 510],
+            [409, 532]
+        ];
+    } else if (text === "J") {
+        return [
+            [312, 537],
+            [312, 550],
+            [243, 524],
+            [256, 498],
+            [212, 444],
+            [181, 468]
+        ];
+    } else if (text === "K") {
+        return [
+            [178, 466],
+            [178, 466],
+            [164, 336],
+            [132, 378]
+        ];
+    } else if (text === "L") {
+        return [
+            [130, 375],
+            [163, 362],
+            [149, 324],
+            [120, 329],
+            [118, 262],
+            [150, 268]
+        ];
+    } else if (text === "N") {
+        return [
+            [607, 259],
+            [621, 255],
+            [633, 350],
+            [603, 347],
+            [579, 422],
+            [616, 440]
+        ];
+    } else if (text === "M") {
+        return [
+            [615, 444],
+            [579, 425],
+            [540, 478],
+            [579, 517],
+            [502, 586],
+            [478, 530]
+        ];
+    } else if (text === "O") {
+        return [
+            [474, 531],
+            [500, 588],
+            [360, 633],
+            [360, 563],
+            [245, 529],
+            [220, 589]
+        ];
+    } else if (text === "P") {
+        return [
+            [218, 587],
+            [239, 527],
+            [190, 485],
+            [149, 526],
+            [106, 443],
+            [145, 426]
+        ];
+    } else if (text === "Q") {
+        return [
+            [143, 420],
+            [106, 439],
+            [88, 357],
+            [119, 347],
+            [114, 259],
+            [99, 257]
+        ];
+    } else if (text === "R") {
+        return [
+            [568, 252],
+            [615, 236],
+            [557, 139],
+            [528, 165]
+        ];
+    } else if (text === "S") {
+        return [
+            [525, 161],
+            [554, 136],
+            [461, 69],
+            [448, 96]
+        ];
+    } else if (text === "T") {
+        return [
+            [457, 68],
+            [446, 94],
+            [378, 76],
+            [377, 66]
+        ];
+    } else if (text === "U") {
+        return [
+            [343, 50],
+            [344, 74],
+            [272, 97],
+            [263, 69]
+        ];
+    } else if (text === "V") {
+        return [
+            [261, 69],
+            [270, 98],
+            [194, 164],
+            [167, 137]
+        ];
+    } else if (text === "W") {
+        return [
+            [164, 140],
+            [191, 167],
+            [153, 252],
+            [107, 238]
+        ];
+    }
+    // 다른 알파벳에 대한 좌표값 설정 추가
+}
+
+// 이건 그려진 영역의 중심을 찾는 함수
+function getPolygonCenter(coords) {
+    var centerX = coords.reduce((sum, coord) => sum + coord[0], 0) / coords.length;
+    var centerY = coords.reduce((sum, coord) => sum + coord[1], 0) / coords.length;
+    return { x: centerX, y: centerY };
+}
