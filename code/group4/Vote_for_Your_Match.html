@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>잠실의 주인은 누구조</title>
+    <title>Vote_for_Your_Match</title>
     <link href="./logo.png" rel="shortcut icon" type="image/x-icon">
 
     <link rel="stylesheet" href="/css/bootstrap.css">
@@ -31,17 +31,42 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
+        .fc-event-title-container:hover {
+            cursor: pointer;
+        }
     </style>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
 
     <script> 
-    /*
-        $(function() {
-            getRoundPeriod();
-            getRound();
-        });*/
+
+        var year = 0;
+        var month = 0;
+        var day = 0;
+        function getServerTime() {
+            $.ajax({
+                url: "https://kusf-api-4.run.goorm.site/getServerTime",
+                type: "GET",
+                data: "",
+                success: function(data, status, xhr) {
+                    year = data.year[0];
+                    month = data.month[0];
+                    day = data.day[0];
+                    console.log(year);
+                },
+                error: function(xhr, status, error) {
+                    console.error('서버 시간을 가져오는 중 에러 발생:', error);
+                },
+            });
+        }
+
+
+
+
+
+
+
 
         // R1 ~ R33 선택창 불러오기
         function getRound() {
@@ -53,7 +78,6 @@
                     console.log(data);
 
                     var roundList = data.roundList;
-                    $("#RoundSb").empty(); // 라운드 선택 창 초기화
 
                     // 라운드 순서 정렬
                     function compareString(a, b) {
@@ -77,6 +101,8 @@
 
 
         var roundData = null;
+        var todayRound = [];
+
 
         function getRoundPeriod() { // 라운드별 기간 출력
             $.ajax ({
@@ -136,15 +162,34 @@
                         periodRowHtml += "</tr>";
                         console.log(periodRowHtml);
                         $("#periodTable").append(periodRowHtml);
+                        
+                        // 라운드 기간안에 오늘 날짜 포함되어있으면 라운드 선택창에 오늘 라운드 올리기 1 (초기화면만)
+                        if (startDateParts[0]==year && startDateParts[1]==month && (startDateParts[2]<=day && day<=endDateParts[2])) {
+                        todayRound[i] = round_list[i];
+                        console.log(todayRound[i].length)
+                        } else {
+                        todayRound[i] = "";
+                        console.log(todayRound[i].length)
+                        }
                     }
                     // 첫행 (라운드, 기간) 삭제 -> body에서 따로 추가 (스크롤 문제)
                     $("#periodTable tr:first").remove(); 
+
+                    // 라운드 기간안에 오늘 날짜 포함되어있으면 라운드 선택창에 오늘 라운드 올리기 2
+                    for(var i=0; i < round_list.length; i++) {
+                        if(todayRound[i].length>0){
+                            $("#RoundSb").val(todayRound[i]);
+                            console.log("라운드에 오늘이 포함되어있어!")
+                            break
+                        } 
+                    }
+
                 },
                 error   : function(xhr, status, error) {    
                     console.log(xhr);                      
                 },
             });
-        };                          
+        };                            
 
 
         var list;
@@ -220,11 +265,14 @@
                     $("#roundInfoTable").hide();
                     var voteCount = data.Updated_Vote_Count;
                     var voteRate = data.voteResult;
+                    var voteRank = data.voteRank;
                     console.log(voteCount);
                     console.log(voteRate);
+                    console.log(voteRank);
 
                     $("#voteCountTable").empty(); // 테이블 삭제
                     var columnTag = "<tr>";
+                    columnTag += "<td></td>";
                     columnTag += "<td></td>";
                     columnTag += "<td>경기</td>";
                     columnTag += "<td></td>";
@@ -233,10 +281,13 @@
                     columnTag += "</tr>";
 
                     $("#voteCountTable").append(columnTag);
-
-
                     for(var i=0; i < voteCount.length; i++) {
                         var rowHtml = "<tr>";
+                        if(voteRank[i]==1){
+                            rowHtml += "<td>" + "<img src=./fire.png width=20 height=20>" + "</td>";
+                        } else {
+                            rowHtml += "<td></td>";
+                        }
                         rowHtml += "<td><img src=./" + list[i].Home_Team_Logo + ".png width=20 height=20> " + list[i].Home_Team + "</td>";
                         rowHtml += "<td>" + "vs" + "</td>";
                         rowHtml += "<td>" + list[i].Away_Team + " <img src=./" + list[i].Away_Team_Logo + ".png width=20 height=20></td>";
@@ -248,47 +299,157 @@
                         console.log(rowHtml);
                         $("#voteCountTable").append(rowHtml);
                     }
+                    
                 },
-                error   : function(xhr, status, error) {    
+                error  : function(xhr, status, error) {    
                     console.log(xhr);                      
                 },
             });
         };           
 
+        // 클릭 버튼이 클릭되었을 때 실행될 함수를 정의합니다.
+    function changeActiveTab(tabIndex) { // 활성화 탭 변경
+        const tabItems = document.querySelectorAll('.tab-container__item');
+    
+        // 모든 탭의 클래스를 제거 후 'tab-container__item'으로 변경
+        tabItems.forEach(item => item.classList.remove('tab-container__item_active'));
+        tabItems.forEach(item => item.classList.add('tab-container__item'));
+
+        // tabIndex에 해당하는 탭을 활성화합니다.
+        tabItems[tabIndex].classList.add('tab-container__item_active');
+    };
+
+
+    function plan() {
+        changeActiveTab(0);
+        $("#voteResultTable").hide();
+        $("#voteBtn").hide();
+        $("#backBtn").hide();
+        $("#homeBtn").hide();
+
+        $("#videoWrapper").hide();
+        $("#getVideo").hide();
+        $("#initialScreen").show();
+        $("#searchWrapper").show(); // 초기 상태로 되돌리기
+        $("#titleWrapper").show();
+
+        $("#voteResultTable").hide();
+        if ($("#roundInfoTable").children().length > 3) {
+        $("#roundInfoTable").children().first().remove();
+        }
+        if ($("#voteResultTable").children().length > 4) {
+        $("#voteResultTable").children().first().remove();
+        }
+        $("#liveTitle").hide();
+        $("#kusfToutubeLink").hide();
+
+    };
+
+    function video() {
+        changeActiveTab(2);
+        $("#voteResultTable").hide();
+        $("#roundInfoTable").hide();
+
+        $("#getVideo").show();
+        $("#videoWrapper").show(); 
+        $("#voteBtn").hide();
+        $("#backBtn").hide();
+        $("#homeBtn").hide();
+        if ($("#roundInfoTable").children().length > 3) {
+            $("#roundInfoTable").children().first().remove();
+        }
+        if ($("#voteResultTable").children().length > 4) {
+            $("#voteResultTable").children().first().remove();
+        }
+        $("#initialScreen").hide();
+        $("#searchWrapper").hide(); // 초기 상태로 되돌리기
+        $("#titleWrapper").hide();
+        $("#voteResultTable").hide(); // 추가: 투표 결과를 숨김
+        $("#liveTitle").show();
+        $("#kusfToutubeLink").show();
+    }
 
 
 
+        function initializePage() {
+            getServerTime(); // 서버 시간 가져오기
+        }
 
-        $(function() {
-            getRoundPeriod();
+
+        function initializePage2() {
             getRound();
+            changeActiveTab(0);
+        }
+        
+        function initializePage3() {
+            getRoundPeriod(); // 라운드 정보 가져오기
+        }
+
+        $(document).ready(function() {
+            initializePage();
+            setTimeout(function() {
+                initializePage2(); // 초기 탭 설정 (1초 딜레이 후에 실행)
+            }, 5000); // 1초 딜레이 (1000ms)
+            setTimeout(function() {
+                initializePage3(); // 초기 탭 설정 (1초 딜레이 후에 실행)
+            }, 5000); // 1초 딜레이 (1000ms)
         });
 
 
-            
+
+
+        $(document).on("click", ".fc-event-title-container", function() {
+            var text = $(this).text();
+            console.log(text);
+            $("#initialScreen").hide(); // 캘린더, 라운드별 기간 숨기기
+            $("#searchWrapper").hide(); // 라운드, 조회버튼 숨기기
+            Round = text;
+            alert(Round + '를 선택하셨습니다.');
+            roundNumber = Round.substring(1); // "R" 제외한 숫자 부분 추출
+            roundLabel = roundNumber + "라운드"; // "{숫자}라운드" 생성s
+            $("#roundInfoTable").show(); // 경기 일정과 투표버튼 출력
+            $("#roundLabel").text(roundLabel); // 새로운 roundLabel 추가
+            $("#roundInfoTable").prepend("<h3>" + roundLabel + "</h3>");
+
+            console.log(Round);
+            console.log(roundLabel);
+            getRoundInfo(Round); // 몇라운드 선택되었는지 보내기 -> 선택된 라운드 정보 가져오기
+            changeActiveTab(1); // 탭 위치 변경
+       
+
+            $("#roundInfoTable").show(); 
+            $("#backBtn").show();
+            $("#voteBtn").show();
+        });   
         
         
         // 조회 버튼 클릭 후 실행
         $(document).on("click", "#searchBtn", function(){ 
 
             Round = $("#RoundSb").val();
-            // 라운드 선택 X
-            if (Round === null){
-                alert('라운드를 선택해주세요.');
-            // 라운드 선택 O
-            }else{
-                $("#initialScreen").hide(); // 캘린더, 라운드별 기간 숨기기
-                $("#searchWrapper").hide(); // 라운드, 조회버튼 숨기기
-                alert(Round + '를 선택하셨습니다.');
-                roundNumber = Round.substring(1); // "R" 제외한 숫자 부분 추출
-                roundLabel = roundNumber + "라운드"; // "{숫자}라운드" 생성
-                $("#roundInfoTable").show(); // 경기 일정과 투표버튼 출력
-                $("#roundLabel").text(roundLabel); // 새로운 roundLabel 추가
-                $("#roundInfoTable").prepend("<h3>" + roundLabel + "</h3>");
+        // 라운드 선택 X
+        if (Round === null) {
+            alert('라운드를 선택해주세요.');
+        // 라운드 선택 O
+        } else {
+            $("#initialScreen").hide(); // 캘린더, 라운드별 기간 숨기기
+            $("#searchWrapper").hide(); // 라운드, 조회버튼 숨기기
+            alert(Round + '를 선택하셨습니다.');
+            roundNumber = Round.substring(1); // "R" 제외한 숫자 부분 추출
+            roundLabel = roundNumber + "라운드"; // "{숫자}라운드" 생성
+            $("#roundInfoTable").show(); // 경기 일정과 투표버튼 출력
+            $("#roundLabel").text(roundLabel); // 새로운 roundLabel 추가
+            $("#roundInfoTable").prepend("<h3>" + roundLabel + "</h3>");
 
-                console.log(Round);
-                console.log(roundLabel);
-                getRoundInfo(Round); // 몇라운드 선택되었는지 보내기 -> 선택된 라운드 정보 가져오기
+            console.log(Round);
+            console.log(roundLabel);
+            getRoundInfo(Round); // 몇라운드 선택되었는지 보내기 -> 선택된 라운드 정보 가져오기
+            changeActiveTab(1); // 탭 위치 변경
+            
+
+            $("#roundInfoTable").show();
+            $("#backBtn").show();
+            $("#voteBtn").show();
             }       
         });
 
@@ -299,6 +460,7 @@
             $("#roundInfoTable").children().first().remove(); // "{숫자}라운드" 삭제
             $("#initialScreen").show(); 
             $("#searchWrapper").show(); // 첫화면 그대로 보여주기
+            changeActiveTab(0); // 탭 위치 변경
         });   
         
         
@@ -307,16 +469,20 @@
             var voteVal = "";
             voteNodeList.forEach((node) => {
             if (node.checked) {
+                console.log("node : " + node)
+                console.log("node.value : " + node.value)
                 voteVal = node.value;
             }
             }); // 선택된 radio의 value를 voteVal에 저장 
+            $("#homeBtn").show();
 
             // 경기 선택 O
             if (voteVal !== "") {
                 console.log(voteVal);
                 const selectedGame = list[Number(voteVal) - 1]; // Adjust the index to match the correct game
+                console.log("selectedGame : " + selectedGame)
                 const message = '"' + selectedGame.Home_Team + ' vs ' + selectedGame.Away_Team + '" 경기에 투표되었습니다.';
-                alert(message); // "~~ vs ~~" 경기에 투표되었습니다.
+                alert(message);
 
                 // 선택된 경기 백앤드로 보내기
                 var sendSelectGameData = {
@@ -347,6 +513,7 @@
             $("#voteResultTable").children().first().remove();
             $("#initialScreen").show();
             $("#searchWrapper").show(); // 초기 상태로 되돌리기
+            changeActiveTab(0); // 탭 위치 변경
         });
 
     </script>
@@ -355,28 +522,31 @@
 <body>
     <!-- 첫 화면 -->
     <div style="display: flex; width: 100%; height: 90px; border-bottom: 1px solid #2BFFCC; align-items: flex-start; flex-direction: column; ">
-        <div style="display: flex; align-items: center; margin-left: 20px; margin-top: 20px;">
-            <div class="favicon-wrapper">
-                <img src="./logo.png" width=50 height=50 alt="Favicon" />
+        <div style="display: flex; align-items: center; margin-left: 20px; min-height: 90px; position: relative;">
+            <div class="favicon-wrapper" >
+                <a href="https://kusf-test-vbuca.run.goorm.site/Vote_for_Your_Match.html">
+                    <img src="./logo.png" width="50px" height="50px">
+                </a>
             </div>
             <div style="font-weight: 800; font-size: 30px;">
-                <p style="margin-left: 10px; font-size: 25px; display: inline;">
-                    잠실의 주인은 누구
-                </p>
-                <p style="margin-left: -5px; font-size: 20px; display: inline;">
-                    조
-                </p>
+                <a href="https://kusf-test-vbuca.run.goorm.site/Vote_for_Your_Match.html">
+                    <p style="margin-left: 10px; font-size: 30px; display: inline; color: #ffffff;">
+                        Vote for Your Match
+                    </p>
+                </a>
             </div>
         </div> <!-- 좌측 상단 -->
 
+
         <div class="tab-wrapper">
-            <li class="tab-container__item" data-tab="tab2">
+             <!--<li class="tab-container__item_active" data-tab="tab1">-->
+            <li class="tab-container__item" data-tab="tab2" onclick="plan()">
                 일정
             </li>
-            <li class="tab-container__item_active" data-tab="tab1">
+            <li class="tab-container__item" data-tab="tab2">
                 투표
             </li>
-            <li class="tab-container__item" data-tab="tab2">
+            <li class="tab-container__item" data-tab="tab2" onclick="video()">
                 무료중계
             </li>
             <li class="tab-container__item" data-tab="tab2">
@@ -386,9 +556,12 @@
     </div>
 
     <div id="titleWrapper">
-        <h1>
-            Vote For Your Match
-        </h1>
+        <div style="display: flex;, align-items: center;" >
+        <h2>
+            <img src="./kleague.png" width="35px" height="35px">
+            K LEAGUE
+        </h2>
+        </div>
         <div style="display: flex; align-items: center;" id="searchWrapper">
             <div>Round:</div>
             <select id="RoundSb"></select>
@@ -430,7 +603,7 @@
             </tr>         
         </table>
         <br>
-        <div>
+        <div style="display: flex; justify-content: space-between;">
             <button class="backBtn" id="backBtn">뒤로가기</button>
             <button class="searchBtn" id="voteBtn">투표</button>
         </div>
@@ -443,6 +616,7 @@
         <table id="voteCountTable" class="voteCountTable">
             <tr>
                 <td></td>
+                <td></td>
                 <td>경기</td>
                 <td></td>
                 <td>득표수</td>
@@ -451,6 +625,65 @@
         </table>
         <br>
         <button class="homeBtn" id="homeBtn">홈으로</button>
+    </div>
+ 
+
+    
+    <!-- 무료중계 화면 -->
+    <div id="videoWrapper" style="display: none;">
+        <div id="liveTitle">
+            <h3>
+                [LIVE 중계] 한양대 vs 숭실대 - 2023 대학축구 U-리그
+            </h3>
+        </div>
+        <br>
+    
+        <div class="video-wrapper">
+            <div class="floBanPc3 hidden-md hidden-sm hidden-xs">
+                <a href="https://www.youtube.com/watch?v=j_PepqBonJs" target="_blank">
+                    <iframe width="212.5px" height="120px" src="https://www.youtube.com/embed/j_PepqBonJs?start=3487&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+            <br>    
+            <div class="floBanPc3 hidden-md hidden-sm hidden-xs">
+                <a href="https://www.youtube.com/watch?v=hflGuwm-w4c" target="_blank">
+                    <iframe width="212.5px" height="120px" src="https://www.youtube.com/embed/hflGuwm-w4c?start=2987&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+            <br>
+            <div class="floBanPc3 hidden-md hidden-sm hidden-xs">
+                <a href="https://www.youtube.com/watch?v=MQdiNL-Jdmk" target="_blank">
+                    <iframe width="212.5px" height="120px" src="https://www.youtube.com/embed/MQdiNL-Jdmk?start=2555&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+            <br> 
+            <div class="floBanPc3 hidden-md hidden-sm hidden-xs">
+                <a href="https://www.youtube.com/watch?v=2GWJk0ueal0" target="_blank">
+                    <iframe width="212.5px" height="120px" src="https://www.youtube.com/embed/2GWJk0ueal0?start=2215&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+            <br> 
+            <div class="floBanPc3 hidden-md hidden-sm hidden-xs">
+                <a href="https://www.youtube.com/watch?v=anyz0EERb1w" target="_blank">
+                    <iframe width="212.5px" height="120px" src="https://www.youtube.com/embed/anyz0EERb1w?start=1518&autoplay=1&mute=1" frameborder="0" allowfullscreen></iframe>
+                </a>
+            </div>
+        </div>
+
+        <iframe id="getVideo" class="getVideo" style="display: none" src="https://www.youtube.com/embed/fMdvV9yQPQc?start=985&autoplay=1&mute=1" frameborder="0" allowfullscreen>
+        </iframe>
+        <div class="floBanPc1 hidden-md hidden-sm hidden-xs">
+            <a href="https://tv.naver.com/kusfsport" target="_blank">
+                <img src="./kusfNavertv.png" width="217.5px" height="148px">
+            </a>
+            <p> 주요장면을 다시 보고싶다면? </p>
+        </div>
+        <div class="floBanPc2 hidden-md hidden-sm hidden-xs">
+            <a href="https://www.youtube.com/channel/UCLp6fbMCDB9nGl53FGbzUBA" target="_blank">
+                <img src="./kusfYoutube.png" width="217.5px" height="217.5px">
+            </a>
+            <p> 다른 경기도 보고싶다면? </p>
+        </div>
     </div>
 
 </body>
