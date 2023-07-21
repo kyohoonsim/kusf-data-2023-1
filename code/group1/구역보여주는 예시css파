@@ -1,0 +1,36 @@
+/* 이미지를 감싸는 div의 스타일 설정 */
+.canvas-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* 캔버스의 스타일 설정 */
+#myCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1; /* 캔버스를 이미지 위에 위치시키기 위해서 */
+}
+
+/* 이미지의 스타일 설정 */
+.user-image {
+    width: 700px; /*width와 height는 수정X*/
+    height: 700px;
+    position: relative;
+    left: 750px;
+    top: 0;
+    left: 0;
+    z-index: 0; /* 이미지를 뒤에 위치시키기 위해서 */
+}
+
+#alphabetDropdown{
+    position: absolute;
+    top: 500px;
+    left: 10px;
+}
+#selectButton{
+    position: absolute;
+    top: 500px;
+    left: 50px;
+}
