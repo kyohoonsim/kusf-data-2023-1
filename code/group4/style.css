@@ -24,7 +24,10 @@ th, td {
 
 body {
   width: 100vw;
+  /*
   height: auto;
+  */
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -50,14 +53,15 @@ body {
   display: flex;
   justify-content: flex-end;
   margin-left: -10%;
-  margin-top: -40px;
+  margin-top: -60px;
 }
 
 .tab-container__item_active {
   border-bottom: 2px solid #2BFFCC;
   color: #2BFFCC;
   cursor: pointer;
-  width: 125px;
+  /* width: 125px; */
+  width: 10%;
   height: 35px;
   display: flex;
   align-items: center;
@@ -68,7 +72,8 @@ body {
 
 .tab-container__item {
   cursor: pointer;
-  width: 125px;
+  /* width: 125px; */
+  width: 10%;
   height: 35px;
   display: flex;
   align-items: center;
@@ -239,36 +244,15 @@ body {
 
 
 
+#roundInfoTable {
+  width: 77%;
+  margin: 0 auto;
+}
+
 #infoTable tr, #infoTable td {
-  width : 70%;
   text-align: center;
   height : 40px;
-}
-
-#infoTable td:nth-child(1) {
-width: 25px;
-}
-
-
-#infoTable td:nth-child(2) {
-width: 100px;
-}
-
-#infoTable td:nth-child(3) {
-width: 70px;
-}
-
-#infoTable td:nth-child(4) {
-width: 25px;
-}
-
-#infoTable td:nth-child(5) {
-width: 70px;
-}
-
-#infoTable td:nth-child(6) {
-width: 70px;
-}
+} 
 
 #backBtn {
   background-color: #2BFFCC;
@@ -297,16 +281,14 @@ width: 70px;
   font-size: 15px;
   font-weight: 550;
   cursor: pointer;
-  margin-left: 1000px;
+  /* margin-left: 1000px; */
 }
 
 #voteBtn:hover {
   background-color: #19a585;
   border: 1px solid #19a585;
-  margin-left: 1000px;
+  /* margin-left: 1000px; */
 }
-
-
 
 .voteResultTable {
   width: 40%;
@@ -318,23 +300,28 @@ width: 70px;
   height: 40px;
 }
 
+
 .voteCountTable td:nth-child(1) {
-width: 17.5%; 
+  width: 5%; 
 }
 
 .voteCountTable td:nth-child(2) {
-width: 10%; 
-}
-
-.voteCountTable td:nth-child(3) {
 width: 17.5%; 
 }
 
+.voteCountTable td:nth-child(3) {
+width: 7%; 
+}
+
 .voteCountTable td:nth-child(4) {
-width: 15%; 
+width: 17.5%; 
 }
 
 .voteCountTable td:nth-child(5) {
+width: 12%; 
+}
+
+.voteCountTable td:nth-child(6) {
 width: 40%; 
 }
 
@@ -367,3 +354,94 @@ width: 40%;
   border: 1px solid #19a585;
 }
 
+
+
+
+#videoWrapper {
+  width: 77%;
+  height: 75vh;
+  margin: 0 auto;
+}
+
+#liveTitle {
+  width: 75%;
+  text-align: center;
+  justify-content: left;
+}
+
+
+.getVideo {
+  /* getVideo 요소의 클래스를 추가하고 이를 사용하여 스타일을 적용합니다. */
+  width: 60%;
+  height: 72.5vh;
+  margin: 0 auto;
+  justify-content: center;
+  top: 23%;
+  position: fixed;
+  left: 50%;
+  margin-left: -30%;
+  z-index: 99;
+}
+
+
+.video-wrapper {
+  position: fixed;
+  top: 23%; /* 윗쪽 끝에서부터의 거리 */
+  left: 3%;
+  z-index: 99;
+  display: flex; /* 자식 요소들을 가로로 배치 */
+  flex-direction: column; /* 자식 요소들을 세로로 배치 */
+  align-items: left; /* 왼쪽 정렬로 변경 */
+  max-height: 500px;
+  width: 217.5px;
+  overflow-y: scroll; /* 세로 스크롤 표시 */
+}
+
+/* 스크롤바 너비 조정 */
+.video-wrapper::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* 스크롤바 색상 */
+.video-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ffffff;
+}
+
+.floBanPc3 {
+  z-index: 99;
+}
+
+
+
+
+/* PC 배너1 스타일 */
+.floBanPc1 {
+  position: fixed;
+  top: 23%; /* 윗쪽 끝에서부터의 거리 */
+  right: 3%;
+  z-index: 99;
+}
+/* PC 배너2 스타일 */
+.floBanPc2 {
+  position: fixed;
+  top: 58%; /* 윗쪽 끝에서부터의 거리 */
+  right: 3%;
+  z-index: 99;
+}
+
+
+
+
+.floBanPc1 p {
+  width: 217.5px;
+  text-align: center;
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.floBanPc2 p {
+  width: 217.5px;
+  text-align: center;
+  font-size: 16px;
+  margin: 10px 0;
+}
