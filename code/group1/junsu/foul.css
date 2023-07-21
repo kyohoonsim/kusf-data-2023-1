@@ -24,7 +24,6 @@
     position: absolute;
     top: 60px;
     left: 230px;
-
     font-family: 'Inter';
     font-style: italic;
     font-weight: 900;
@@ -125,7 +124,7 @@ hr{
 .rate input:checked + .rate label:hover,
 .rate input input:checked ~ label:hover,
 .rate input:checked ~ .rate label:hover ~ label,  
-.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  } 
+.rate label:hover ~ input:checked ~ label { color: #f73c32 !important;  }
 
 
 
