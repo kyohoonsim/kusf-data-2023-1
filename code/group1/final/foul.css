@@ -1,0 +1,190 @@
+.canvas-container {
+    position: relative;
+    display: inline-block;
+    left: 750px;
+    width: 700px;
+    height: 656px;
+}
+.user-image {
+    width: 100%; /*width와 height는 수정X*/
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0; /* 이미지를 뒤에 위치시키기 위해서 */
+}
+#myCanvas {
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    pointer-events: none;
+    z-index: 1; /* 캔버스를 이미지 위에 위치시키기 위해서 */
+}
+.foulDB{
+    position: absolute;
+    top: 60px;
+    left: 230px;
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 900;
+    font-size: 64px;
+    line-height: 77px;
+
+    color: #000000;
+}
+.foulMaker{
+    position: absolute;
+    top: 190px;
+    left: 230px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+
+    z-index: 100;
+    background-color: white;
+}
+.helpMessage1{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.chooseTeamImage{
+    position: absolute;
+    top: 150px;
+}
+.foulMaker2{
+    position: absolute;
+    left: 230px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+    color: #000000;
+    top: 400px;
+
+    z-index: 100;
+    background-color: white;
+}
+.foulMaker3{
+    position: absolute;
+    top: 130px;
+    left: 0px;
+
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 29px;
+
+    color: #000000;
+
+    z-index: 100;
+    background-color: white;
+}
+.helpMessage2{
+    font-size: 5px;
+    display: none;
+    border: 1px solid black;
+    padding: 2px;
+    border-radius: 10%;
+}
+.optionAll{
+    position: absolute;
+    top: 450px;
+    left: 230px;
+}
+.teamAndBatter{
+    position: absolute;
+    top: 240px;
+    left: 230px;
+}
+#batterLine{
+    position: absolute;
+    top: 350px;
+    left: 228px;
+}
+#searchBtn {
+    position: absolute;
+    top: 300px;
+    left: 100px;
+    cursor: pointer;
+    width: 50px;
+    height: 30px;
+}
+.v-line {
+    position: absolute;
+    border-left : thick solid rgb(92, 96, 93);
+    width: 2px;
+    height : 710px;
+    left: 610px;
+    top: 70px;
+}
+#ballLine {
+    position: absolute;
+    left: 229px;
+    top: 530px;
+}
+
+
+.ballCount-ball{
+    position: relative;
+    right: 140px;
+    top: 23px;
+}
+.ballCount-strike{
+    position: relative;
+    right: 170px;
+    top: 33px;
+}
+.ballCount-out{
+    position: relative;
+    right: 170px;
+    top: 33px;
+}
+
+.toggleSwitch {
+    width: 45px;
+    height: 23px;
+    display: block;
+    position: relative;
+    border-radius: 30px;
+    background-color: #9b9b9b;
+    cursor: pointer;
+    margin: 30px;
+    left: 150px;
+    top: 38px;
+}
+
+.toggleSwitch .toggleButton {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 1px;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    background: #ffffff;
+}
+
+#toggle:checked ~ .toggleSwitch {
+    background: #000000;
+}
+
+#toggle:checked ~ .toggleSwitch .toggleButton {
+    left: calc(105% - 23px);
+    background: #ffffff;
+}
+
+.toggleSwitch, .toggleButton {
+    transition: all 0.2s ease-in;
+}
