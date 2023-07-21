@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine, text
 
 
-
 db_connection_info = {
     'user': 'root',
     'password': 'qwer1234!',
@@ -79,7 +78,7 @@ def read_round():
 def read_round_info(Round_num: str) -> dict:
 
     with engine.connect() as conn:
-        rows = conn.execute(text("SELECT Game_num, Game_Date, Home_Team, Away_Team, TIME_FORMAT(Start_Time, '%H:%i') AS Start_Time, Vote_Count FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
+        rows = conn.execute(text("SELECT Game_num, Game_Date, Home_Team, Away_Team, TIME_FORMAT(Start_Time, '%H:%i') AS Start_Time, Vote_Count, Home_Team_Logo, Away_Team_Logo FROM game_info WHERE Round_num = :Round_num"), {'Round_num': Round_num})
         
 
     columns = rows.keys()
@@ -126,9 +125,25 @@ def read_round_info(Round_num: str) -> dict:
     rate_list.append(rate4)
     rate_list.append(rate5)
     rate_list.append(rate6)
+    
 
         
-    return {"Round_number": row_dict_list, "Updated_Vote_Count": vote_count_list, "voteResult": rate_list}
+    with engine.connect() as conn:
+        rows2 = conn.execute(text("SELECT (SELECT COUNT(*) + 1 FROM game_info AS t2 WHERE t2.Round_num = :Round_num AND t2.Vote_Count > t1.Vote_Count) AS Vote_Count_Rank FROM game_info AS t1 WHERE t1.Round_num = :Round_num;"), {'Round_num': Round_num})
+
+    columns2 = rows2.keys()
+    print(columns2)
+    vote_count_rank_list = []
+    for row2 in rows2:
+        row2_dict = {column: row2[idx] for idx, column in enumerate(columns2)}  # columns2로 수정
+        vote_count_rank_list.append(row2_dict['Vote_Count_Rank'])
+
+    return {"Round_number": row_dict_list, "Updated_Vote_Count": vote_count_list, "voteResult": rate_list, "voteRank": vote_count_rank_list}
+
+
+    
+    
+    
 
 
 
