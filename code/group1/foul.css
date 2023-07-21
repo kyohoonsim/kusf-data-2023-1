@@ -4,8 +4,8 @@
 }
 .foulDB{
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 60px;
+    left: 230px;
 
     font-family: 'Inter';
     font-style: italic;
@@ -17,8 +17,8 @@
 }
 .foulMaker{
     position: absolute;
-    top: 90px;
-    left: 30px;
+    top: 190px;
+    left: 230px;
 
     font-family: 'Inter';
     font-style: normal;
@@ -44,14 +44,14 @@
 }
 .foulMaker2{
     position: absolute;
-    left: 30px;
+    left: 230px;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 800;
     font-size: 24px;
     line-height: 29px;
     color: #000000;
-    top: 300px;
+    top: 400px;
 
     z-index: 100;
     background-color: white;
@@ -65,30 +65,41 @@
 }
 .optionAll{
     position: absolute;
-    top: 350px;
+    top: 450px;
+    left: 230px;
 }
 .teamAndBatter{
     position: absolute;
-    top: 140px;
+    top: 240px;
+    left: 230px;
 }
 hr{
     position: absolute;
-    top: 250px;
+    top: 350px;
+    left: 228px;
 }
 #submitBtn1{
     position: absolute;
-    top: 70px;
+    top: 80px;
     left: 100px;
+    cursor: pointer;
 }
 #submitBtn2{
     position: absolute;
-    top: 470px;
-    left: 110px;
+    top: 590px;
+    left: 330px;
+    cursor: pointer;
 }
+.v-line {
+    position: absolute;
+    border-left : thick solid rgb(92, 96, 93);
+    height : 550px;
+    left: 610px;
+    top: 70px;
+}
+
+
 /*카운트 체크할 때 바뀌는 구글에서 긁어온 코드*/
-
-
-
 
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
