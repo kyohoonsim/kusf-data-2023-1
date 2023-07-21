@@ -4,17 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FOUL MAP</title>
-    <link rel="stylesheet" href="foul.css">
+    <link rel="stylesheet" href="최종.css">
     <script
     src="https://code.jquery.com/jquery-3.7.0.min.js"
     integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
     crossorigin="anonymous"></script>
-    <script src="foul.js"></script>
+    <script src="최종.js"></script>
 </head>
 
 <body>
     <div class='v-line'></div> <!--선택구역과 이미지를 구분하는 세로줄-->
-    <img src="image/JjinFoulImage.png" style="width: 700px; height: 700px;" class="FoulImage"/> <!--우리가 통일한 이미지이름으로 바꾸기-->
+    <div class="canvas-container"> <!--추가해야될 div태그와 canvas속성-->
+        <!-- 이미지를 배경으로 갖는 div -->
+        <img src="realfile/image/foulAREA.jpg" alt="user_map" class="user-image">
+        <canvas id="myCanvas"></canvas>
+    </div>
     <span class="foulDB">FOUL MAP</span>
     <br>
     <span class="foulMaker" style="color: rgb(169, 27, 27);">FOUL MAKER
@@ -41,9 +45,10 @@
         <br>
         <div class="form-group col-sm-4">
             <label for="selectBatter">선수 선택:</label>
-            <select class="form-control" name="selectBatter" id="selectBatter"></select>
+            <select class="form-control" name="selectBatter" id="selectBatter">
+                <option value="타자선택">====</option>
+            </select>
         </div>
-        <input id="submitBtn1" type="button" value="확인"/>
     </div>
     <script src="foul.js"></script>
     
@@ -65,7 +70,7 @@
                 <div class="form-Group col-sm-5">
                     <label for="selectAwayTeam">상대팀 선택:</label>
                     <select class="form-Control" name="selectAwayTeam" id="selectAwayTeam" onchange="selectAwayTeam(this)">
-                        <option>상대팀을 선택해 주세요</option>
+                        <option>상대팀을 선택해주세요.</option>
                         <option value="LG">LG트윈스</option>
                         <option value="SSG">SSG랜더스</option>
                         <option value="두산">두산베어스</option>
@@ -81,26 +86,43 @@
                 <br>
                 <div class="form-Group col-sm-4">
                     <label for="selectPitcher">선수 선택:</label>
-                    <select class="form-control" name="selectPitcher" id="selectPitcher"></select>
+                    <select class="form-control" name="selectPitcher" id="selectPitcher">
+                        <option value="투수선택">====</option>
+                    </select>
                 </div>
             </div>
         </div>
         <!--여기까지 옵션중에서 투수를 고르는 부분-->
-        <div id="toggleSwitch"> <!--토글 스위치를 아직 만들지는 못했음;;-->
-            <div class="rate">
-                <span style="width: 50%">카운트 선택:</span>
-            
-                <fieldset class="rate"> <!--토글을 만들었을 때 이부분을 보여주면 됨(아래는 저번에 준혁님이 알려주신대로 해본 거라서 신경X)-->
-                    <input type="radio" id="rating6" name="rating" value="3"><label for="rating6" title="3점"></label>
-                    <input type="radio" id="rating4" name="rating" value="2"><label for="rating4" title="2점"></label>
-                    <input type="radio" id="rating2" name="rating" value="1"><label for="rating2" title="1점"></label>
-                </fieldset>
-            </div>
+<hr id="ballLine" style="width: 380px; height: 1px; border: 1; background-color: rgb(92, 96, 93);">
+    <div class="BallCount-option">
+        <span class="foulMaker3" style="color: rgb(7, 162, 35);">BALL COUNT</span>
+        
+        <div class="on-offSwitch">
+            <input type="checkbox" id="toggle" hidden> 
+            <label for="toggle" class="toggleSwitch">
+                <span class="toggleButton"></span>
+            </label>
         </div>
-        <input id="submitBtn2" type="button" value="확인"/>
-    </div>
-    <div class="rate"> <!--여긴 아마 저번에 별점채워지는 그부분 때문에 설정된거 같음-->
-        <span style="width: 50%"></span>
+        <div class="count-options"style="display: none; position: absolute; top: 180px;">
+            <span>OUT 카운트:</span>
+            <label><input class="out_count" type="radio" name="out" value="0">0</label>
+            <label><input type="radio" name="out" value="1">1</label>
+            <label><input type="radio" name="out" value="2">2</label>
+            <br>
+            <br>
+            <span>STRIKE 카운트:</span>
+            <label><input class="strike_count" type="radio" name="strike" value="0">0</label>
+            <label><input type="radio" name="strike" value="1">1</label>
+            <label><input type="radio" name="strike" value="2">2</label>
+            <br>
+            <br>
+            <span>BALL 카운트:</span>
+            <label><input class="ball_count" type="radio" name="ball" value="0">0</label>
+            <label><input type="radio" name="ball" value="1">1</label>
+            <label><input type="radio" name="ball" value="2">2</label>
+            <label><input type="radio" name="ball" value="3">3</label>
+        </div>
+        <input id="searchBtn" type="button" value="조회"/>
     </div>
 </body>
 </html>
