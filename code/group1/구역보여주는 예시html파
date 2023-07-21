@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foulmap</title>
+    <link rel="stylesheet" href="imagemap3.css">
+</head>
+<body>
+    <div class="canvas-container"> <!--추가해야될 div태그와 canvas속성-->
+        <!-- 이미지를 배경으로 갖는 div -->
+        <img src="image/JjinFoulImage.png" alt="user_map" class="user-image">
+        <canvas id="myCanvas" width="700" height="700"></canvas>
+    </div>
+
+    <!-- 드롭다운(여기는 우리가 설정한 팀선택으로 하고 아래의 선수선택도 추가해야됨) -->
+    <select id="alphabetDropdown">
+        <option value="A">A</option>
+        <option value="B">B</option>
+        <option value="C">C</option>
+        <option value="D">D</option>
+        <option value="E">E</option>
+        <option value="F">F</option>
+        <option value="G">G</option>
+        <option value="H">H</option>
+        <option value="I">I</option>
+        <option value="J">J</option>
+        <option value="K">K</option>
+        <option value="L">L</option>
+        <option value="N">N</option>
+        <option value="M">M</option>
+        <option value="O">O</option>
+        <option value="P">P</option>
+        <option value="Q">Q</option>
+        <option value="R">R</option>
+        <option value="S">S</option>
+        <option value="T">T</option>
+        <option value="U">U</option>
+        <option value="V">V</option>
+        <option value="W">W</option>
+    </select>
+
+    <!-- 선택 버튼(foul.html파일의 <input id="submitBtn1" type="button" value="확인"/>
+        여기랑 같으므로 id값을 맞춰주면됨) 
+    -->
+    <button id="selectButton">선택</button>
+
+    <!-- jQuery 라이브러리 추가(이건 메모리관리상 올리는게 좋다고 하는데 일단 이렇게 밑에 놔뒀음) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="imagemap3.js"></script>
+</body>
+</html>
